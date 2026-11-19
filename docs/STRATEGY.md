@@ -12,6 +12,20 @@ are in `research_notes/` and `reports/`.
 * All the edge in any rule set sits in the rare huge outliers. Remove the top 0.1%
   of trades and every rule in the simulation went negative.
 
+## Live evidence, 19 Nov 2026
+* **FOMO app itself:** 90% of 829,539 wallets lost money after fees, Jan–Oct 2026
+  (median −$25). 74% of 2.9M Solana meme buyers lost SOL within two weeks.
+* **Market sample (255 new coins, bought on paper ~6 min after launch, tracked 60 min):**
+  median 1-hour price ratio 1.00; 66% had no trades in the last hour; 6.3% touched
+  2x, 2.4% touched 5x, ~0.4% touched 10x; the 2x coins gave back a median 98.5%
+  from peak. Buying every coin with a +100–400% take-profit: about −3% to −5% per $1
+  with lean bot costs, about −31% to −35% with app-default fees.
+* **Our engine (45 min, filters on):** 4,860 leads → 145 deep checks → 5 buys,
+  0 wins, −$0.93 total. Four coins never rose 15% above our real entry in 5 min.
+  Filter audit: 84 of 101 followed rejects went dead; 1 later did 2.6x.
+* Who earns: dev wallets + bundles made at least $579M after fees vs $31.5M for
+  snipers (Bitquery).
+
 ## Filters (agents 8–14), cheapest first
 | Check | Default | Type | Evidence |
 |---|---|---|---|
