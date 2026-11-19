@@ -1,0 +1,369 @@
+<title>FOMO Family Research</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: research dossier. One reading column (~70ch) with a sticky section index on wide screens;
+   charts and tables break out to the full content width. */
+:root {
+  --bg: #f4f5f8;
+  --surface: #ffffff;
+  --ink: #141822;
+  --muted: #586073;
+  --rule: #d9dde5;
+  --accent: #2f58cf;
+  --accent-soft: #e4eafb;
+  --loss: #b9304a;
+  --loss-soft: #f7e3e7;
+  --gain: #157a52;
+  --gain-soft: #dff1e8;
+  --bar-track: #e7e9ef;
+  --f-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body: "IBM Plex Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1218; --surface: #171b24; --ink: #e6e9f0; --muted: #9aa3b4; --rule: #2a303c;
+    --accent: #86a2ff; --accent-soft: #1f2846; --loss: #ff7a8f; --loss-soft: #3a1c24;
+    --gain: #55c992; --gain-soft: #173226; --bar-track: #232936; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1218; --surface: #171b24; --ink: #e6e9f0; --muted: #9aa3b4; --rule: #2a303c;
+  --accent: #86a2ff; --accent-soft: #1f2846; --loss: #ff7a8f; --loss-soft: #3a1c24;
+  --gain: #55c992; --gain-soft: #173226; --bar-track: #232936; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 16px; line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0 64px;
+}
+a { color: var(--accent); text-underline-offset: 2px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+.wrap { max-width: 1120px; margin: 0 auto; display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 48px; }
+nav.toc { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 24px); align-self: start; padding-top: 40px; font-size: 13px; }
+nav.toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+nav.toc a { color: var(--muted); text-decoration: none; }
+nav.toc a:hover { color: var(--ink); }
+nav.toc .lbl { font-family: var(--f-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+main { min-width: 0; }
+header.top { padding-block: 40px 28px; border-bottom: 1px solid var(--rule); }
+.eyebrow { font-family: var(--f-mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(32px, 5vw, 50px); line-height: 1.05; letter-spacing: -0.01em; margin: 10px 0 16px; text-wrap: balance; }
+h2 { font-family: var(--f-display); font-weight: 700; font-size: clamp(23px, 3vw, 30px); line-height: 1.15; margin: 0 0 14px; text-wrap: balance; }
+h3 { font-family: var(--f-display); font-weight: 600; font-size: 19px; margin: 26px 0 8px; text-wrap: balance; }
+p, li { max-width: 70ch; }
+p { margin: 0 0 14px; }
+.lede { font-size: 18px; color: var(--ink); }
+.meta { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: var(--muted); margin-top: 14px; }
+.meta span { font-family: var(--f-mono); }
+section { padding-block: 40px 8px; border-bottom: 1px solid var(--rule); scroll-margin-top: 16px; }
+.num { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+p .num, li .num { font-family: inherit; font-weight: 600; }
+.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; margin: 28px 0 8px; }
+.stat { background: var(--surface); padding: 16px 16px 18px; min-width: 0; }
+.stat b { display: block; font-family: var(--f-display); font-size: 30px; line-height: 1.1; font-weight: 700; }
+.stat b.bad { color: var(--loss); }
+.stat small { display: block; color: var(--muted); font-size: 13px; line-height: 1.4; margin-top: 6px; }
+.verdict { background: var(--loss-soft); border-left: 3px solid var(--loss); padding: 14px 18px; border-radius: 0 6px 6px 0; margin: 22px 0 6px; max-width: 74ch; }
+.verdict p { margin: 0; }
+.fixed { background: var(--gain-soft); border-left: 3px solid var(--gain); padding: 14px 18px; border-radius: 0 6px 6px 0; margin: 18px 0; max-width: 74ch; }
+.fixed p:last-child, .fixed ul:last-child { margin-bottom: 0; }
+.fig { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 18px 18px 14px; margin: 22px 0; }
+.fig h4 { margin: 0 0 4px; font-size: 15px; font-weight: 600; }
+.fig .cap { color: var(--muted); font-size: 13px; margin: 0 0 14px; }
+.fig .src { color: var(--muted); font-size: 12px; margin: 10px 0 0; }
+.bars { display: grid; gap: 10px; }
+.bar { display: grid; grid-template-columns: minmax(120px, 230px) minmax(0, 1fr) 64px; gap: 12px; align-items: center; font-size: 14px; }
+.bar .track { height: 14px; background: var(--bar-track); border-radius: 3px; position: relative; overflow: hidden; }
+.bar .fill { position: absolute; inset: 0 auto 0 0; background: var(--accent); border-radius: 3px; }
+.bar .fill.loss { background: var(--loss); }
+.bar .fill.gain { background: var(--gain); }
+.bar .fill.range { background: repeating-linear-gradient(90deg, var(--accent) 0 6px, var(--accent-soft) 6px 9px); }
+.bar .v { font-family: var(--f-mono); font-variant-numeric: tabular-nums; text-align: right; }
+.axis { display: grid; grid-template-columns: minmax(120px, 230px) minmax(0, 1fr) 64px; gap: 12px; font-family: var(--f-mono); font-size: 11px; color: var(--muted); margin-top: 4px; }
+.axis .ticks { display: flex; justify-content: space-between; }
+.tbl { overflow-x: auto; margin: 18px 0; border: 1px solid var(--rule); border-radius: 8px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 14px; min-width: 560px; }
+th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-size: 12px; font-weight: 600; color: var(--muted); letter-spacing: .03em; background: var(--bg); }
+tr:last-child td { border-bottom: 0; }
+td.n, th.n { text-align: right; font-family: var(--f-mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+td .neg { color: var(--loss); } td .pos { color: var(--gain); }
+tr.total td { font-weight: 600; background: var(--bg); }
+.funnel { display: flex; flex-wrap: wrap; gap: 8px; align-items: stretch; margin: 18px 0; }
+.funnel div { flex: 1 1 120px; background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 12px 14px; min-width: 0; }
+.funnel b { display: block; font-family: var(--f-mono); font-size: 22px; font-variant-numeric: tabular-nums; }
+.funnel small { color: var(--muted); font-size: 13px; }
+.funnel div.end { border-color: var(--loss); }
+.funnel div.end b { color: var(--loss); }
+.lanes { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; margin: 18px 0; }
+.lane { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 12px; min-width: 0; }
+.lane h5 { margin: 0 0 8px; font-family: var(--f-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+.lane ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.lane li { font-size: 13px; line-height: 1.35; }
+.lane li i { font-style: normal; font-family: var(--f-mono); color: var(--muted); margin-right: 4px; }
+.lane li.ocaml { color: var(--accent); font-weight: 600; }
+.chip { display: inline-block; font-family: var(--f-mono); font-size: 11px; padding: 1px 6px; border-radius: 4px; background: var(--accent-soft); color: var(--accent); vertical-align: 1px; }
+.chip.off { background: var(--bar-track); color: var(--muted); }
+ul.tight { padding-left: 20px; margin: 0 0 14px; }
+ul.tight li { margin-bottom: 6px; }
+code { font-family: var(--f-mono); font-size: 13px; background: var(--bar-track); padding: 1px 5px; border-radius: 4px; }
+footer { padding-top: 28px; font-size: 13px; color: var(--muted); }
+footer p { max-width: 80ch; }
+@media (max-width: 900px) {
+  .wrap { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  nav.toc { display: none; }
+  .lanes { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 640px) {
+  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .lanes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .bar, .axis { grid-template-columns: minmax(0, 1fr) 56px; }
+  .bar .lbl { grid-column: 1 / -1; }
+  .bar .track { grid-column: 1; }
+  .axis .sp { display: none; }
+  .axis .ticks { grid-column: 1; }
+}
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+
+<div class="wrap">
+  <nav class="toc" aria-label="Sections">
+    <div class="lbl">Sections</div>
+    <ol>
+      <li><a href="#odds">The odds</a></li>
+      <li><a href="#fomo">FOMO platform</a></li>
+      <li><a href="#costs">Cost of $1</a></li>
+      <li><a href="#paper">Our paper runs</a></li>
+      <li><a href="#traders">Top traders</a></li>
+      <li><a href="#engine">The 20 agents</a></li>
+      <li><a href="#exits">Exit rules</a></li>
+      <li><a href="#stack">Stack and Jev</a></li>
+      <li><a href="#security">Security</a></li>
+      <li><a href="#tax">India tax</a></li>
+      <li><a href="#next">What to do next</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <header class="top">
+      <div class="eyebrow">FOMO Family · Research report · 19 Nov 2026</div>
+      <h1>Fees and odds sink the $1-per-coin plan</h1>
+      <p class="lede">Six research tracks, one live sample of 255 new Solana coins, and our own 20-agent bot paper-trading on live data all point the same way. Buying $1 of many new meme coins and selling at a target loses money after costs. The engine is worth keeping as a lab and a safety screener.</p>
+      <div class="meta"><span>SOL ≈ $74</span><span>Data window 19:12–21:00 UTC</span><span>Paper mode only, no real money</span></div>
+      <div class="stats" role="list">
+        <div class="stat" role="listitem"><b class="num">1 in 250</b><small>new coins touched 10x within an hour (live sample, 255 coins)</small></div>
+        <div class="stat" role="listitem"><b class="num bad">90%</b><small>of 829,539 FOMO app wallets lost money after fees, Jan–Oct 2026</small></div>
+        <div class="stat" role="listitem"><b class="num bad">−19%</b><small>average per $1 trade in our 45-min paper run (5 buys, 5 losses)</small></div>
+        <div class="stat" role="listitem"><b class="num">$579M</b><small>made by coin creators and bundled wallets, vs $31.5M for sniper bots</small></div>
+      </div>
+      <div class="verdict"><p><strong>Plain answer:</strong> do not fund $1-per-coin auto-trading. Keep the bot in paper mode, prove an edge on recorded data first, and if it ever goes live use $2–$5 stakes, a separate burner wallet, and budget for India's 30% tax with no loss offset.</p></div>
+    </header>
+
+    <section id="odds">
+      <h2>About 1 new coin in 250 hits 10x, and insiders get there first</h2>
+      <p>Solana makes new meme coins at a huge rate. Bitquery counted <span class="num">11.5 million</span> new Solana tokens from Nov 2025 to Oct 2026, 78% from pump.fun, about <span class="num">34,000</span> a day. <span class="num">79%</span> of pump.fun coins never traded again after launch day, and only <span class="num">1 in 58</span> "graduated" from pump.fun's starting price curve to a real pool. On 9 Nov 2026 just <span class="num">312</span> of about 24.4 million pump.fun coins were worth more than $100,000.</p>
+      <div class="fig">
+        <h4>What happened to 255 new coins in their first hour</h4>
+        <p class="cap">Coins created 19:12–19:21 UTC on 19 Nov 2026, "bought" about 6 minutes after launch, tracked for 60 minutes. Share of coins.</p>
+        <div class="bars">
+          <div class="bar"><span class="lbl">No trades in the last hour</span><span class="track"><span class="fill loss" style="width:66%"></span></span><span class="v">66%</span></div>
+          <div class="bar"><span class="lbl">Fell more than 90%</span><span class="track"><span class="fill loss" style="width:10%"></span></span><span class="v">~10%</span></div>
+          <div class="bar"><span class="lbl">Touched 2x</span><span class="track"><span class="fill gain" style="width:6.3%"></span></span><span class="v">6.3%</span></div>
+          <div class="bar"><span class="lbl">Touched 5x</span><span class="track"><span class="fill gain" style="width:2.4%"></span></span><span class="v">2.4%</span></div>
+          <div class="bar"><span class="lbl">Touched 10x</span><span class="track"><span class="fill gain" style="width:0.4%"></span></span><span class="v">0.4%</span></div>
+          <div class="bar"><span class="lbl">Touched 100x</span><span class="track"><span class="fill gain" style="width:0%"></span></span><span class="v">0%</span></div>
+        </div>
+        <div class="axis"><span class="sp"></span><span class="ticks"><span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span></span><span class="sp"></span></div>
+        <p class="src">Median coin ended at exactly 1.00x. Coins that doubled gave back a median 98.5% of their peak within the hour. Source: GeckoTerminal new_pools, our research sample. One weekday evening; rates swing with the market.</p>
+      </div>
+      <p>"Thousands of percent in minutes" does happen, but a 10x is about a 1-in-250 event and the window to sell lasts minutes. Coins that graduate do it in a median <span class="num">1.66 minutes</span>; right after, <span class="num">38%</span> fall 80% within 10 minutes. Coin creators and their bundled wallets get supply cheap or free and took at least <span class="num">$579M</span>. Of <span class="num">2.9 million</span> Solana meme buyers, <span class="num">74%</span> held less SOL two weeks later, and spreading money across more coins did not help. Putting $1 into many coins does not fix a game where the average coin loses. It only makes the loss smoother.</p>
+    </section>
+
+    <section id="fomo">
+      <h2>FOMO is a big, real app, but it rules out this plan</h2>
+      <p>FOMO is run by FOMO Labs Inc. (Delaware), founded by ex-dYdX people. It has raised about <span class="num">$94M</span>: a $17M Series A led by Benchmark (Nov 2025) and a $75M Series B led by Index Ventures (Jun 2026) at a reported <span class="num">$550M</span> valuation. It claims about 2.5M users. Wallets are self-custody Privy wallets and the key can be exported. No hack is confirmed; a $6M drain claim in 2026 was denied and never proven. Watch for the fake lookalike site <code>fomoo.family</code>.</p>
+      <h3>Three rules block $1 auto-trading in the app</h3>
+      <ul class="tight">
+        <li><strong>No bots.</strong> The Terms (§16) ban bots, scripts, scrapers and sharing session tokens. There is no public API, and FOMO can close accounts it suspects.</li>
+        <li><strong>Market orders only.</strong> Spot has no take-profit, stop-loss or limit orders. "Copy trading" is only an alert you act on by hand.</li>
+        <li><strong>Minimums.</strong> Fee 0.5% per side (0.45% with a referral), with "a minimum of up to 0.95 USDC on smaller Solana trades". The app's code sets a <span class="num">$2</span> minimum buy and sell.</li>
+      </ul>
+      <p>FOMO's own users show what its crowd achieves. Bitquery traced <span class="num">829,539</span> Solana wallets that traded through FOMO from Jan to Oct 2026: about <span class="num">10%</span> were profitable after fees and the median wallet lost <span class="num">$25</span>. Fees were only about a tenth of the losses; the rest came from the coins. India is not on FOMO's banned-country list, and VPN use is banned.</p>
+    </section>
+
+    <section id="costs">
+      <h2>What one $1 round trip really costs</h2>
+      <p>Trading on-chain from your own wallet avoids FOMO's minimums, but $1 is tiny next to fixed costs. pump.fun charges 1.25% per side. Each open coin locks about 0.002 SOL (about $0.15) of account rent, refunded when the account is closed. A typical 0.001 SOL "landing tip" alone is about 7% of $1 per side.</p>
+      <div class="fig">
+        <h4>Cost of one buy plus one sell, as % of $1</h4>
+        <p class="cap">What the coin must rise just to break even.</p>
+        <div class="bars">
+          <div class="bar"><span class="lbl">Lean direct bot, perfect landing</span><span class="track"><span class="fill" style="width:8.25%"></span></span><span class="v">3.3%</span></div>
+          <div class="bar"><span class="lbl">Our paper engine (real quotes + 3% drift each way)</span><span class="track"><span class="fill range" style="width:32.5%"></span></span><span class="v">9–13%</span></div>
+          <div class="bar"><span class="lbl">Trading-terminal defaults</span><span class="track"><span class="fill loss" style="width:85%"></span></span><span class="v">34%</span></div>
+          <div class="bar"><span class="lbl">FOMO app</span><span class="track"></span><span class="v">blocked</span></div>
+        </div>
+        <div class="axis"><span class="sp"></span><span class="ticks"><span>0%</span><span>10%</span><span>20%</span><span>30%</span><span>40%</span></span><span class="sp"></span></div>
+        <p class="src">FOMO app: $2 minimum order; a $0.95 minimum fee would take 95% of $1. Even at the lean 3.3%, the 255-coin sample lost money with every exit rule. Practical minimum stake: about $2 for a simple round trip, about $5 for a sell ladder.</p>
+      </div>
+      <p>The lean figure is a floor, not a forecast. During research a real Jupiter quote on a freshly graduated coin returned $0.933 for $0.994 put in, a 6% gap on one side alone. One small upside: at $1, sandwich bots barely bother you. Still keep slippage tight; those bots took <span class="num">$29.7M</span> from wide-slippage meme trades in 11 months.</p>
+    </section>
+
+    <section id="paper">
+      <h2>Our paper runs: five buys, five losses, two flaws found and fixed</h2>
+      <p>The engine ran on live public data from 19:37 to 20:22 UTC on 19 Nov 2026 in paper mode, with $1 stakes and a $250 paper balance. The free data stack held up: 1,785 API calls, zero errors, 14 rate-limit hits (13 from GeckoTerminal).</p>
+      <div class="funnel" role="list">
+        <div role="listitem"><b>4,860</b><small>leads found</small></div>
+        <div role="listitem"><b>145</b><small>reached the deep safety checks</small></div>
+        <div role="listitem"><b>119</b><small>failed OrganicFlow (bot volume)</small></div>
+        <div role="listitem"><b>5</b><small>bought at $1</small></div>
+        <div role="listitem" class="end"><b>0</b><small>winners</small></div>
+      </div>
+      <div class="tbl">
+        <table>
+          <thead><tr><th>Coin</th><th class="n">Held</th><th class="n">Best on screen</th><th class="n">Screen at sale</th><th class="n">Got back for $1</th><th>Why sold</th></tr></thead>
+          <tbody>
+            <tr><td>JETSKI</td><td class="n">5.0 min</td><td class="n">+4.4%</td><td class="n">+2.1%</td><td class="n"><span class="neg">$0.89</span></td><td>5-min time stop</td></tr>
+            <tr><td>GTABANK</td><td class="n">5.0 min</td><td class="n">never above</td><td class="n">−13.3%</td><td class="n"><span class="neg">$0.90</span></td><td>5-min time stop</td></tr>
+            <tr><td>CATMARIO</td><td class="n">5.0 min</td><td class="n">never above</td><td class="n">−7.2%</td><td class="n"><span class="neg">$0.83</span></td><td>5-min time stop</td></tr>
+            <tr><td>OGTA</td><td class="n">5.1 min</td><td class="n">never above</td><td class="n">−11.5%</td><td class="n"><span class="neg">$0.83</span></td><td>5-min time stop</td></tr>
+            <tr><td>ONI</td><td class="n">9.2 min</td><td class="n">+33.7%</td><td class="n">+5.2%</td><td class="n"><span class="neg">$0.63</span></td><td>end of run</td></tr>
+            <tr class="total"><td>Total</td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n">$4.09 for $5.02</td><td>−$0.93, about −19% per trade</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Five trades prove almost nothing about skill: with a 6.3% chance of touching 2x, five buys see no 2x about 72% of the time. What the run does show is how costs behave. The 3% landing drift each way is a deliberate worst-case guess and explains about 5 of the 19 points lost. Without it, all five trades still lose about 14% each, because prices drifted down and real sell quotes came in below the screen price.</p>
+      <p>The filter audit follows rejected coins afterwards. GTA, rejected because its creator had rugged coins before, fell <span class="num">99.4%</span> during the run. All six coins cut by the deep checks fell afterwards and none reached 2x. Of 101 rejected coins we followed, 84 went dead. The "older than 24 hours" rule skipped one coin that later did 2.6x.</p>
+      <div class="fixed">
+        <p><strong>Both flaws the report found are fixed and tested</strong> (commit on branch <code>claude/tender-cerf-sdzlws</code>):</p>
+        <ul class="tight">
+          <li><strong>Screen price vs real price.</strong> Exits were decided on Dexscreener's price (up to 30 s old) but sold at Jupiter's real quote. Across the five sales the real quote ranged from 37.5% below to 7% above the screen. Now every position is marked at a real sell quote, peaks track sellable value, and no exit fires until a fresh quote confirms it.</li>
+          <li><strong>Leaky hard reject.</strong> OGTA was hard-rejected (round trip lost 12.4%), fell out of the full 400-coin watch list, came back as a boosted lead and was bought at score 100. Hard rejects now go on a permanent ban list.</li>
+          <li>Time stop now matches the simulated rule (leave at 5 min if below 1.3x). Tests: 126 engine + 18 risk, all passing.</li>
+        </ul>
+        <p id="run2">Run 2 (15 minutes with the fixes): <span id="run2-text">results pending.</span></p>
+      </div>
+    </section>
+
+    <section id="traders">
+      <h2>The "$160 to $100k" FOMO traders win by doing the opposite</h2>
+      <p>Nobody in the evidence matches "$1–$100 to lakhs in 3–4 months" with checked on-chain proof. The closest is Spyzer, who FOMO says turned <span class="num">$160</span> into nearly <span class="num">$100k</span> in a month, with no wallet or trade record published. 0xGolden's story shares word-for-word quotes with another trader's profile, so at least one is credited to the wrong person. Media stories like $160 to $6.14M on Chill Guy are single lucky bets, often with insider claims. By Jan 2025 only <span class="num">0.4%</span> of 13.4 million pump.fun wallets had made $10,000 or more.</p>
+      <h3>What the winners say they do</h3>
+      <ul class="tight">
+        <li>Avoid new pairs; buy coins at <span class="num">$400K–$3M</span> market cap (Washed).</li>
+        <li>Take the starting money out after a 2x and let the rest ride (Logjam).</li>
+        <li>Hold swing trades 3–7 days; win only about 38% but much bigger (Spyzer).</li>
+        <li>"$1,000 spread across 20 positions… cannot move your life" (llonchain).</li>
+        <li>Counter-example: 4pfCoyote lost $250K, partly chasing "19 people you follow bought" alerts.</li>
+      </ul>
+      <p>Their pattern is few coins, later entries, bigger bets, held for hours or days and sold in steps: the opposite of many $1 bets sold within minutes. Copying them works poorly too. Smart-money wallets averaged about 14% while copiers kept about 3% after costs; following the earliest group-buy signal lost in <span class="num">32 of 32</span> setups; copies placed two minutes late lost <span class="num">41%</span> per coin.</p>
+      <p><strong>How to study them anyway:</strong> by hand, in the app. Use the Positions leaderboard (filter by amount invested) and the trades leaderboard's smallest size group ($100–$1k). Favour 30-day consistency, many trades, a 40–60% win rate and trade sizes like yours. Pulling that data with a script breaks the Terms. Paste chosen public wallets into <code>config/wallets.csv</code>; the bot gives their buys only a +15 score bonus and still makes every coin pass every filter.</p>
+    </section>
+
+    <section id="engine">
+      <h2>The 20 agents</h2>
+      <p>One job per agent. Cheap checks run first; anything that costs an API call runs only on survivors. The last word on every buy is the OCaml RiskGovernor, and it fails closed: no answer means no trade. The AI can only nudge a score.</p>
+      <div class="lanes">
+        <div class="lane"><h5>Discover</h5><ol><li><i>1</i>LaunchScout</li><li><i>2</i>TrendScout</li><li><i>3</i>SmartMoney</li><li><i>4</i>TraderScout</li></ol></div>
+        <div class="lane"><h5>Observe</h5><ol><li><i>5</i>MarketData</li><li><i>6</i>ApiHealth</li><li><i>7</i>Volatility</li></ol></div>
+        <div class="lane"><h5>Filter</h5><ol><li><i>8</i>LiquidityGuard</li><li><i>9</i>SocialCheck</li><li><i>10</i>Momentum</li><li><i>11</i>RugGuard</li><li><i>12</i>HolderAnalyst</li><li><i>13</i>HoneypotTester</li><li><i>14</i>OrganicFlow</li></ol></div>
+        <div class="lane"><h5>Decide</h5><ol><li><i>15</i>NarrativeAI <span class="chip off">off</span></li><li><i>16</i>Strategist</li><li class="ocaml"><i>17</i>RiskGovernor (OCaml)</li></ol></div>
+        <div class="lane"><h5>Act</h5><ol><li><i>18</i>Executor <span class="chip">paper</span></li><li><i>19</i>ExitManager</li></ol></div>
+        <div class="lane"><h5>Learn</h5><ol><li><i>20</i>Auditor: books every trade and grades filters on rejected coins</li></ol></div>
+      </div>
+      <h3>Data stack (all keyless today)</h3>
+      <p>Dexscreener (prices, 0.21 s average), GeckoTerminal (new pools; rate-limited 20% of calls), RugCheck (contract and holder report, 2.5 s), Jupiter lite-api (quotes, Shield <code>NOT_SELLABLE</code> flag, organic-volume stats), Solana public RPC. Fine for coins at least 3 minutes old, which the engine targets on purpose; far too slow for the first two minutes. Before live: move to <code>api.jup.ag</code> with a free key and the Swap API v2. Buy faster data (PumpPortal websocket free, Helius or a gRPC stream about $49/month) only after a replay shows earlier entries help.</p>
+      <h3>Filters that matter most</h3>
+      <ul class="tight">
+        <li><strong>Yes-or-no traps, one miss costs 100%:</strong> active mint or freeze authority, Token-2022 permanent delegate, transfer hook, transfer fee or non-transferable flag, failed sell quote. All rejected.</li>
+        <li><strong>The first five minutes</strong> of trading are the best-studied warning signs (F1 about 0.72–0.79 on the trained venue, about 0.38 elsewhere).</li>
+        <li><strong>Holder counts hide a lot:</strong> after merging linked wallets, the true top-10 share of risky coins was 24% higher.</li>
+        <li><strong>Raw volume flatters fakes:</strong> at least 17% of trades are wash trades.</li>
+      </ul>
+    </section>
+
+    <section id="exits">
+      <h2>Exit rules: never sell 100% at a fixed target</h2>
+      <p>The owner's "sell at X%" rule is the weakest exit in every test the team has. The live sample and the simulation agree: tight fixed targets lose, higher targets lose less, and holding without a plan is worst.</p>
+      <div class="tbl">
+        <table>
+          <thead><tr><th>Exit rule</th><th class="n">255-coin sample, lean costs</th><th class="n">Same, app costs</th><th class="n">Simulation (base)</th></tr></thead>
+          <tbody>
+            <tr><td>Sell everything at +100% (2x)</td><td class="n"><span class="neg">−5.4%</span></td><td class="n"><span class="neg">−35.2%</span></td><td class="n"><span class="neg">−40¢</span></td></tr>
+            <tr><td>Sell everything at +400% (5x)</td><td class="n"><span class="neg">≈ −3%</span></td><td class="n"><span class="neg">−30.9%</span></td><td class="n"><span class="neg">−33¢</span></td></tr>
+            <tr><td>Hold for 60 minutes</td><td class="n"><span class="neg">−9.3%</span></td><td class="n"><span class="neg">−38.5%</span></td><td class="n">too noisy</td></tr>
+            <tr><td>Trailing stop: arm at 1.5x, sell 30% below peak, leave at 5 min if no move <span class="chip">default</span></td><td class="n">not tested</td><td class="n">not tested</td><td class="n"><span class="pos">+23 to +25¢</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>The trailing stop was the only rule with a positive average in the model, and only thanks to rare coins that run past 50x. Cap prices at 50x and it falls to about −6¢; remove the best 0.1% of trades and it drops to −7¢. A public backtest of 4,293 pump.fun callouts turned negative when the best 24 were removed. So the trailing stop is the right default, not a money machine. Test 30%, 40% and 50% trails on recorded data. The owner's rule remains available as <code>exit_mode = fixed</code>.</p>
+    </section>
+
+    <section id="stack">
+      <h2>Stack: keep C++ and OCaml, let Jev score text only</h2>
+      <p>On Solana, speed is won in three places: how early you see events, how close your server is, and how your trade lands. Each costs tens to hundreds of milliseconds, while the code runs in microseconds in any compiled language. A server on the wrong continent adds about <span class="num">80–120 ms</span>. Solana's Alpenglow upgrade (live 21 Oct 2026, about 150 ms finality) shrinks every window further. C++ gives no real speed edge over Rust here, and its Solana toolkit is thin; OCaml has no Solana library at all. Jane Street's lesson is that OCaml's strict types catch bugs in the rules that guard money, which is exactly how the RiskGovernor uses it.</p>
+      <p>For live trading: let Jupiter's Swap API v2 build each transaction and sign it in a small separate signer process. Do not hand-write pump.fun instruction layouts in C++. Run the trading loop from New York, Amsterdam or Frankfurt, not from India.</p>
+      <h3>Jev</h3>
+      <p>"JEV" is almost certainly <strong>Jev, TypeSafe AI's "System One" decision model</strong>, announced 15 Sep 2026 and still in waitlist early access. It answers typed questions about text or JSON with a value and a probability in a claimed 70–500 ms, and knows nothing about markets beyond what you send it. Minor versions have broken compatibility. It fits agent 15: scoring tweets, Telegram posts and coin descriptions for hype or scam patterns. Pin the version, never give it keys, never let it size or place trades. In Nof1's Alpha Arena, most top AI models lost money trading real crypto. "JVI" matched nothing and is probably a typo.</p>
+    </section>
+
+    <section id="security">
+      <h2>Security: a separate burner wallet with hard limits</h2>
+      <p>Bot traders mostly lose money through stolen keys, not bad trades. Banana Gun refunded about $3M drained through its bot; a fake pump.fun bot on GitHub stole keys from <code>.env</code> files; in 2026, 25 fake Solana npm and PyPI packages hunted for keypairs.</p>
+      <ul class="tight">
+        <li>A separate bot wallet holding only one day's risk ($50–$250), refilled from a vault. Not the FOMO wallet.</li>
+        <li>A separate signer process holds the key and enforces a daily cap and a short program allowlist (Jupiter, pump.fun, token programs).</li>
+        <li>Keys never sit in config or environment files. A Telegram bot may show status, pause and kill, nothing more.</li>
+        <li>Never trade between team members' wallets on the same coin. That is wash trading: FOMO bans it and US prosecutors punish it (Gotbit forfeited $23M).</li>
+      </ul>
+    </section>
+
+    <section id="tax">
+      <h2>India's tax turns a break-even bot into a losing one</h2>
+      <p>India taxes crypto gains at a flat <span class="num">30%</span> plus 4% cess. Only purchase cost is deductible, and losses cannot offset any gain or be carried forward. Budget 2026 left this unchanged. A 1% TDS still applies (old 194S, now section 393(1) of the Income-tax Act 2025 from 1 Apr 2026); on a DEX, who deducts it is unsettled. Every swap is a taxable transfer valued in rupees at that moment.</p>
+      <div class="tbl">
+        <table>
+          <thead><tr><th>Example year</th><th class="n">Amount</th></tr></thead>
+          <tbody>
+            <tr><td>Winning trades gain</td><td class="n"><span class="pos">+₹10,00,000</span></td></tr>
+            <tr><td>Losing trades lose (cannot be offset)</td><td class="n"><span class="neg">−₹9,00,000</span></td></tr>
+            <tr><td>Profit before tax</td><td class="n">+₹1,00,000</td></tr>
+            <tr><td>Tax: 30% + cess on the full ₹10 lakh of gains</td><td class="n"><span class="neg">−₹3,12,000</span></td></tr>
+            <tr class="total"><td>After tax</td><td class="n"><span class="neg">−₹2,12,000</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Keep a per-swap rupee ledger from day one (agent 20 can do it), move money through an FIU-registered Indian exchange, and see a chartered accountant before the first live trade. India blocked 15 more unregistered offshore platforms in Sep 2026; FOMO's registration status is unknown.</p>
+    </section>
+
+    <section id="next">
+      <h2>What to do next</h2>
+      <div class="tbl">
+        <table>
+          <thead><tr><th class="n">#</th><th>Do this</th><th>Why</th></tr></thead>
+          <tbody>
+            <tr><td class="n">1</td><td>Keep the engine in paper mode. Do not fund the $1-per-coin plan.</td><td>Every source and our own run point to a loss after costs.</td></tr>
+            <tr><td class="n">2</td><td><span class="chip">done</span> Fix the two flaws: permanent hard-reject list, real sell quote before any exit.</td><td>OGTA was bought after a hard reject; ONI's real quote was 37.5% below screen.</td></tr>
+            <tr><td class="n">3</td><td>Record snapshots and quotes for every candidate, rejected ones included, and build a replay tester.</td><td>Proof needs tens of thousands of entries; live paper gives about 160 a day.</td></tr>
+            <tr><td class="n">4</td><td>Write the go/no-go test before seeing results: positive average with 3% drift each way, without the top 0.1% of trades, prices capped at 50x, after 30% tax.</td><td>Stops one lucky week from talking the team into going live.</td></tr>
+            <tr><td class="n">5</td><td>Test exits on the replay: 30/40/50% trails, time stops at 1.15x and 1.3x, the owner's fixed target as a baseline.</td><td>The trailing stop is best in theory, untested on real price paths.</td></tr>
+            <tr><td class="n">6</td><td>Only if it passes: $2–$5 stakes, bankroll of 150–250 stakes, daily loss limit of 8–15 stakes, burner wallet with signer caps, server in NY/Amsterdam/Frankfurt, Jupiter Swap API v2 with tight minimum-out.</td><td>Fixed costs, ruin risk (47–84% for $20–$50 bankrolls in simulation), key theft, distance.</td></tr>
+            <tr><td class="n">7</td><td>Use FOMO by hand only: leaderboards, trader playbooks, a separate wallet.</td><td>Terms §16 bans bots and scraping.</td></tr>
+            <tr><td class="n">8</td><td>Let Jev score text only.</td><td>Speed, determinism and prompt-injection risk.</td></tr>
+            <tr><td class="n">9</td><td>See a chartered accountant before the first live trade.</td><td>30% tax, no loss offset, unclear TDS on DEX swaps.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>The deeper problem is that the plan's two goals fight each other. The checks that keep a bot safe (wait three minutes, demand real liquidity, real buyers and a sellable quote) put it after the move. Two honest options remain: copy the FOMO winners' style, with the engine as a screener and safety checker for a few larger, later bets; or keep the engine as a lab and accept that it may prove there is no edge to find.</p>
+    </section>
+
+    <footer>
+      <p>Code, notes and full report: GitHub <code>praveen366368/Fomo-trade-</code>, branch <code>claude/tender-cerf-sdzlws</code>: <code>reports/FOMO Family meme coin research.md</code> (full report with every source link), <code>research_notes/</code> (six research tracks), <code>docs/</code> (architecture, strategy, roadmap, paper-run files). Many third-party figures came from search summaries rather than full documents; the notes mark each one. Not financial advice.</p>
+    </footer>
+  </main>
+</div>

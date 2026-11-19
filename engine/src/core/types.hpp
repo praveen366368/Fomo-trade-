@@ -101,7 +101,10 @@ struct Position {
   double tokens_left = 0;
   int decimals = 6;
   double peak_price = 0;
-  double last_price = 0;
+  double last_price = 0;        // SELLABLE price per token (real quote, or screen x quote_ratio)
+  double screen_price = 0;      // Dexscreener price (can lag up to ~30 s)
+  double quote_ratio = 1.0;     // last real sell quote / screen price
+  int64_t quote_ms = 0;         // when last_price came from a real quote
   double entry_liquidity = 0;
   double last_liquidity = 0;
   double realized_usd = 0;      // net proceeds received so far

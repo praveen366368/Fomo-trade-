@@ -53,6 +53,8 @@ Orchestrator::Orchestrator(const Config& cfg, Http& http, std::string data_dir)
       max_pool_(cfg.integer("max_watch_pool", 400)),
       cycle_seconds_(cfg.integer("cycle_seconds", 10)),
       monitor_seconds_(cfg.integer("monitor_seconds", 4)),
+      quotes_per_monitor_(cfg.integer("quotes_per_monitor", 3)),
+      quote_fresh_ms_(static_cast<int64_t>(cfg.integer("quote_fresh_seconds", 15)) * 1000),
       close_at_end_(cfg.flag("close_at_end", true)) {
   fs::create_directories(dir_);
   traders_.load(cfg.str("wallets_file", "config/wallets.csv"));
@@ -78,6 +80,7 @@ std::string Orchestrator::roster() const {
 
 void Orchestrator::add_lead(const Lead& l, int64_t now) {
   leads_++;
+  if (banned_.count(l.mint)) return;  // hard-rejected once = never again
   auto it = pool_.find(l.mint);
   if (it != pool_.end()) {
     auto& c = it->second;
@@ -112,6 +115,7 @@ void Orchestrator::reject(Candidate& c, const Verdict& v, int64_t now) {
   c.reject_agent = v.agent;
   c.reject_reason = v.reason;
   reject_counts_[v.agent]++;
+  if (v.hard && banned_.size() < 500000) banned_.insert(c.mint);
   std::lock_guard<std::mutex> lock(mu_);
   books_.track_reject(c, now);
 }
@@ -328,13 +332,22 @@ void Orchestrator::monitor(int64_t now) {
     auto it = snaps.find(p.mint);
     if (it != snaps.end()) {
       missing_[p.mint] = 0;
-      p.last_price = it->second.price_usd;
+      p.screen_price = it->second.price_usd;
       p.last_liquidity = it->second.liquidity_usd;
+      // Between real quotes, move the sellable mark with the screen price.
+      if (now - p.quote_ms > quote_fresh_ms_) p.last_price = p.screen_price * p.quote_ratio;
       p.peak_price = std::max(p.peak_price, p.last_price);
     } else if (!snaps.empty() && ++missing_[p.mint] >= 3) {
       p.last_liquidity = 0;  // pair vanished from the market = treat as rug
     }
   }
+  // Real sell quotes for the positions priced longest ago (rate-limit budget).
+  std::vector<Position*> open;
+  for (auto& p : positions_)
+    if (!p.closed) open.push_back(&p);
+  std::sort(open.begin(), open.end(), [](const Position* a, const Position* b) { return a->quote_ms < b->quote_ms; });
+  for (size_t i = 0; i < open.size() && static_cast<int>(i) < quotes_per_monitor_; ++i)
+    if (exec_.mark(*open[i], sol)) open[i]->peak_price = std::max(open[i]->peak_price, open[i]->last_price);
   manage_positions(now, sol);
 }
 
@@ -342,8 +355,15 @@ void Orchestrator::manage_positions(int64_t now, double sol) {
   // caller holds mu_
   for (auto& p : positions_) {
     if (p.closed) continue;
-    const auto a = exits_.evaluate(p, now);
+    auto a = exits_.evaluate(p, now);
     if (a.fraction <= 0) continue;
+    // Never act on a stale screen price: confirm with a real sell quote first.
+    // (If no quote comes back, e.g. the pool was pulled, the exit goes ahead.)
+    if (now - p.quote_ms > quote_fresh_ms_ && exec_.mark(p, sol)) {
+      p.peak_price = std::max(p.peak_price, p.last_price);
+      a = exits_.evaluate(p, now);
+      if (a.fraction <= 0) continue;
+    }
     const double before = p.realized_usd;
     const double got = exec_.sell(p, a.fraction, sol, a.why);
     if (a.why.rfind("take-profit", 0) == 0) p.ladder_step++;

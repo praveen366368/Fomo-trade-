@@ -327,8 +327,12 @@ class Executor : public Agent {
   // Sells `fraction` of the ORIGINAL token amount (clamped to what is left).
   // Returns net USD received.
   double sell(Position& p, double fraction_of_initial, double sol_usd, const std::string& why);
+  // Re-price the position at what its tokens would really sell for now
+  // (Jupiter quote). Returns false if no quote.
+  bool mark(Position& p, double sol_usd);
 
  private:
+  Quote sell_quote(const Position& p, double tokens);
   Http& http_;
   FeeModel fees_;
   bool paper_ = true;

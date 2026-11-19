@@ -52,7 +52,19 @@ std::optional<Position> Executor::buy(const Candidate& c, double size_usd, doubl
   p.tokens_initial = p.tokens_left = tokens;
   p.decimals = decimals;
   p.entry_price = size_usd / tokens;  // effective price we paid per token (ex fees)
-  p.peak_price = p.last_price = p.entry_price;
+  p.screen_price = c.snap->price_usd;
+  p.last_price = p.entry_price;
+  // Mark at the honeypot test's real sell quote, so the position starts at
+  // what we could actually get back (usually a few % below entry).
+  if (c.sell_quote && c.sell_quote->ok && c.buy_quote->out_amount > 0) {
+    const double sell_px = c.sell_quote->out_amount / 1e9 * sol_usd / (c.buy_quote->out_amount / std::pow(10.0, decimals));
+    if (sell_px > 0) {
+      p.last_price = sell_px;
+      if (p.screen_price > 0) p.quote_ratio = sell_px / p.screen_price;
+      p.quote_ms = now_ms();
+    }
+  }
+  p.peak_price = p.last_price;
   p.entry_liquidity = p.last_liquidity = c.snap->liquidity_usd;
   p.entry_score = c.score;
   p.source = c.sources.empty() ? "" : c.sources.front();
@@ -61,17 +73,31 @@ std::optional<Position> Executor::buy(const Candidate& c, double size_usd, doubl
   return p;
 }
 
+Quote Executor::sell_quote(const Position& p, double tokens) {
+  char amt[64];
+  std::snprintf(amt, sizeof amt, "%.0f", tokens * std::pow(10.0, p.decimals));
+  auto r = http_.get("https://lite-api.jup.ag/swap/v1/quote?slippageBps=" + std::to_string(slippage_bps_) +
+                     "&inputMint=" + p.mint + "&outputMint=" + kWsolMint + "&amount=" + amt);
+  return parse::jupiter_quote(r.body);
+}
+
+bool Executor::mark(Position& p, double sol_usd) {
+  if (p.closed || p.tokens_left <= 0 || sol_usd <= 0) return false;
+  const Quote q = sell_quote(p, p.tokens_left);
+  if (!q.ok) return false;
+  p.last_price = q.out_amount / 1e9 * sol_usd / p.tokens_left;
+  if (p.screen_price > 0) p.quote_ratio = p.last_price / p.screen_price;
+  p.quote_ms = now_ms();
+  return true;
+}
+
 double Executor::sell(Position& p, double fraction_of_initial, double sol_usd, const std::string& why) {
   double tokens = std::min(p.tokens_left, p.tokens_initial * fraction_of_initial);
   if (p.tokens_left - tokens < p.tokens_initial * 1e-6) tokens = p.tokens_left;  // no dust
   if (tokens <= 0) return 0;
   double gross = 0;
   // Real exit price: ask Jupiter what this many tokens fetch right now.
-  char amt[64];
-  std::snprintf(amt, sizeof amt, "%.0f", tokens * std::pow(10.0, p.decimals));
-  auto r = http_.get("https://lite-api.jup.ag/swap/v1/quote?slippageBps=" + std::to_string(slippage_bps_) +
-                     "&inputMint=" + p.mint + "&outputMint=" + kWsolMint + "&amount=" + amt);
-  Quote q = parse::jupiter_quote(r.body);
+  const Quote q = sell_quote(p, tokens);
   if (q.ok && sol_usd > 0) {
     gross = q.out_amount / 1e9 * sol_usd;
   } else {

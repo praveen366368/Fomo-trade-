@@ -47,16 +47,17 @@ static const std::string NOSELL = "6Jhj71pZztUHh6j1Au6yA61Lqv1bpm11iFc7Lav4pump"
 // Fake network: first route whose key is a substring of the URL answers.
 class FakeHttp : public Http {
  public:
-  std::vector<std::pair<std::string, std::function<std::string()>>> routes;
+  using Fn = std::function<std::string(const std::string&)>;
+  std::vector<std::pair<std::string, Fn>> routes;
   std::vector<std::string> seen;
-  void on(const std::string& key, std::function<std::string()> f) { routes.emplace_back(key, std::move(f)); }
+  void on(const std::string& key, Fn f) { routes.emplace_back(key, std::move(f)); }
   void on(const std::string& key, const std::string& body) {
-    routes.emplace_back(key, [body] { return body; });
+    routes.emplace_back(key, [body](const std::string&) { return body; });
   }
   HttpResponse get(const std::string& url) override {
     seen.push_back(url);
     for (auto& [k, f] : routes)
-      if (url.find(k) != std::string::npos) return {200, f(), 1, ""};
+      if (url.find(k) != std::string::npos) return {200, f(url), 1, ""};
     return {404, "{\"error\":\"not found\"}", 1, ""};
   }
   HttpResponse post_json(const std::string& url, const std::string&, const std::vector<std::string>&) override {
@@ -173,7 +174,7 @@ static void test_honeypot_and_organic() {
   http.on("tokens/v2/search", fixture("jupiter_tokens_v2.json"));
   http.on("outputMint=" + GTA, fixture("jupiter_quote.json"));
   std::string sell_out = "12500000";
-  http.on("inputMint=" + GTA, [&] { return "{\"inAmount\":\"3535217035\",\"outAmount\":\"" + sell_out + "\",\"priceImpactPct\":\"0.01\",\"routePlan\":[]}"; });
+  http.on("inputMint=" + GTA, [&](const std::string&) { return "{\"inAmount\":\"3535217035\",\"outAmount\":\"" + sell_out + "\",\"priceImpactPct\":\"0.01\",\"routePlan\":[]}"; });
   HoneypotTester hp(http, c);
   auto sh = hp.shield({GTA, NOSELL});
   CHECK(sh.count(NOSELL) == 1);
@@ -453,64 +454,135 @@ static void test_risk_daemon() {
 }
 
 // Full pipeline on fake data: discover -> filters -> OCaml risk -> paper buy
-// -> price runs to 2x -> falls back -> trailing stop sells.
-static void test_end_to_end() {
+// -> price runs to 2.2x -> falls back -> trailing stop sells. Sell quotes are
+// priced off the screen price times `qratio`, so screen and real price differ.
+static double amount_of(const std::string& url) {
+  const auto p = url.find("amount=");
+  return p == std::string::npos ? 0 : std::stod(url.substr(p + 7));
+}
+
+struct World {
+  FakeHttp http;
+  double price = 0.0003992;  // screen price
+  double qratio = 0.95;      // real sell quote / screen
+  bool sell_route = true;
+  std::string mint = GTA;
+  int64_t created = now_ms() - 30 * 60000;
+  json pairs = json::parse(fixture("dexscreener_tokens.json"));
+  World() {
+    http.on("tokens/v1/solana", [this](const std::string&) {
+      json out = json::array();
+      for (auto p : pairs) {
+        if (p["baseToken"]["address"] == GTA) {
+          p["baseToken"]["address"] = mint;
+          p["pairCreatedAt"] = created;
+          char b[32];
+          std::snprintf(b, sizeof b, "%.12f", price);
+          p["priceUsd"] = b;
+          std::snprintf(b, sizeof b, "%.14f", price / 73.69);
+          p["priceNative"] = b;
+        }
+        out.push_back(p);
+      }
+      return out.dump();
+    });
+    http.on("token-profiles/latest", [this](const std::string&) {
+      return "[{\"chainId\":\"solana\",\"tokenAddress\":\"" + mint + "\"}]";
+    });
+    http.on("token-boosts", "[]");
+    http.on("geckoterminal", "{\"data\":[]}");
+    http.on("price/v3", "{\"" + std::string(kWsolMint) + "\":{\"usdPrice\":73.69}}");
+    http.on("rugcheck.xyz", fixture("rugcheck_report.json"));
+    http.on("ultra/v1/shield", fixture("jupiter_shield.json"));
+    http.on("tokens/v2/search", fixture("jupiter_tokens_v2.json"));
+    const std::string buy_fixture = fixture("jupiter_quote.json");
+    http.on("swap/v1/quote", [this, buy_fixture](const std::string& url) {
+      if (url.find("inputMint=" + std::string(kWsolMint)) != std::string::npos) return buy_fixture;  // buy
+      if (!sell_route) return std::string("{\"error\":\"no route\"}");                          // sell
+      const double tokens = amount_of(url) / 1e6;
+      char b[64];
+      std::snprintf(b, sizeof b, "%.0f", tokens * price * qratio / 73.69 * 1e9);
+      return "{\"inAmount\":\"1\",\"outAmount\":\"" + std::string(b) + "\",\"priceImpactPct\":\"0.01\",\"routePlan\":[]}";
+    });
+  }
+};
+
+static Config e2e_config(const std::string& dir) {
   Config c = base_config();
   c.set("risk_daemon", RISKD);
   c.set("hold_max_top10_pct", "40");      // fixture coin is 37% top-10
   c.set("hold_max_creator_tokens", "10"); // and its creator made 5 coins
   c.set("organic_min_score", "-1");       // and it is botted
   c.set("wallets_file", "/nonexistent");
-  const auto dir = (std::filesystem::temp_directory_path() / "fomo_e2e").string();
   std::filesystem::remove_all(dir);
+  return c;
+}
 
-  FakeHttp http;
-  double price = 0.0003992;
-  const int64_t created = now_ms() - 30 * 60000;
-  json pairs = json::parse(fixture("dexscreener_tokens.json"));
-  http.on("tokens/v1/solana", [&] {
-    json out = json::array();
-    for (auto p : pairs) {
-      if (p["baseToken"]["address"] == GTA) {
-        p["pairCreatedAt"] = created;
-        char b[32];
-        std::snprintf(b, sizeof b, "%.10f", price);
-        p["priceUsd"] = b;
-        std::snprintf(b, sizeof b, "%.12f", price / 73.69);
-        p["priceNative"] = b;
-      }
-      out.push_back(p);
-    }
-    return out.dump();
-  });
-  http.on("token-profiles/latest", "[{\"chainId\":\"solana\",\"tokenAddress\":\"" + GTA + "\"}]");
-  http.on("token-boosts", "[]");
-  http.on("geckoterminal", "{\"data\":[]}");
-  http.on("price/v3", "{\"" + std::string(kWsolMint) + "\":{\"usdPrice\":73.69}}");
-  http.on("rugcheck.xyz", fixture("rugcheck_report.json"));
-  http.on("ultra/v1/shield", fixture("jupiter_shield.json"));
-  http.on("tokens/v2/search", fixture("jupiter_tokens_v2.json"));
-  http.on("outputMint=" + GTA, fixture("jupiter_quote.json"));
-  http.on("inputMint=" + GTA, "{\"inAmount\":\"1\",\"outAmount\":\"12600000\",\"priceImpactPct\":\"0.01\",\"routePlan\":[]}");
-
-  Orchestrator eng(c, http, dir);
+static void test_end_to_end() {
+  const auto dir = (std::filesystem::temp_directory_path() / "fomo_e2e").string();
+  Config c = e2e_config(dir);
+  World w;
+  Orchestrator eng(c, w.http, dir);
   const int64_t t = now_ms();
   eng.cycle(t);
   CHECK(eng.positions().size() == 1);
   if (eng.positions().empty()) return;
-  CHECK(!eng.positions()[0].closed);
-  const double entry = eng.positions()[0].entry_price;
-  price = entry * 2.2;  // pumps
+  const Position& p0 = eng.positions()[0];
+  CHECK(!p0.closed && p0.quote_ms > 0);
+  // The position starts marked at its real sell quote, not the screen price.
+  NEAR(p0.last_price, w.price * w.qratio, w.price * 0.01);  // SOL price is a median of pairs
+  const double entry = p0.entry_price;
+  w.price = entry * 2.2 / w.qratio;  // pumps: sellable value 2.2x
   eng.monitor(t + 60000);
   CHECK(!eng.positions()[0].closed);
   NEAR(eng.positions()[0].peak_multiple(), 2.2, 0.01);
-  price = entry * 1.4;  // -36% from peak -> trailing stop
+  w.price = entry * 1.4 / w.qratio;  // -36% from peak -> trailing stop
   eng.monitor(t + 120000);
   CHECK(eng.positions()[0].closed && eng.positions()[0].close_reason == "trailing stop");
   json s = json::parse(eng.summary_json());
   CHECK(s["buys"] == 1 && s["closed"] == 1);
   CHECK(s["agents"].size() == 20);
   CHECK(std::filesystem::exists(dir + "/ledger.jsonl"));
+}
+
+// Exits must not fire on a stale screen price that the real quote disagrees with.
+static void test_exit_confirms_with_real_quote() {
+  const auto dir = (std::filesystem::temp_directory_path() / "fomo_e2e_confirm").string();
+  Config c = e2e_config(dir);
+  c.set("quotes_per_monitor", "0");  // monitor uses screen x ratio only
+  World w;
+  Orchestrator eng(c, w.http, dir);
+  const int64_t t = now_ms();
+  eng.cycle(t);
+  CHECK(eng.positions().size() == 1);
+  if (eng.positions().empty()) return;
+  const double entry = eng.positions()[0].entry_price;
+  w.price = entry * 0.40 / w.qratio;  // screen says -60%: stop-loss on screen
+  w.qratio *= 2.5;                     // ...but the real quote says it is flat
+  eng.monitor(t + 60000);
+  CHECK(!eng.positions()[0].closed);   // confirmed with a quote: no panic sell
+  NEAR(eng.positions()[0].multiple(), 1.0, 0.01);
+  w.qratio /= 2.5;                     // real quote now well below the old ratio
+  w.price = entry * 0.16 / w.qratio;   // screen x old ratio says -60%, quote says -84%
+  eng.monitor(t + 120000);
+  CHECK(eng.positions()[0].closed && eng.positions()[0].close_reason == "stop-loss");
+}
+
+// A hard reject is permanent even after the coin leaves the watch list.
+static void test_hard_reject_is_permanent() {
+  const auto dir = (std::filesystem::temp_directory_path() / "fomo_e2e_ban").string();
+  Config c = e2e_config(dir);
+  World w;
+  w.mint = "BANNEDmintBANNEDmintBANNEDmintBANNEDmint1111";
+  w.sell_route = false;  // honeypot: can buy, cannot sell
+  Orchestrator eng(c, w.http, dir);
+  eng.cycle(now_ms());
+  CHECK(eng.positions().empty());
+  CHECK(eng.is_banned(w.mint));
+  w.sell_route = true;  // even if it later looks fine, it stays out
+  eng.cycle(now_ms() + 31 * 1000);
+  eng.cycle(now_ms() + 62 * 1000);
+  CHECK(eng.positions().empty());
 }
 
 int main() {
@@ -525,6 +597,8 @@ int main() {
   test_strategist_and_traders();
   test_risk_daemon();
   test_end_to_end();
+  test_exit_confirms_with_real_quote();
+  test_hard_reject_is_permanent();
   std::printf("engine tests: %d passed, %d failed\n", g_pass, g_fail);
   return g_fail == 0 ? 0 : 1;
 }

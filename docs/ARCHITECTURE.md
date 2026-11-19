@@ -41,7 +41,10 @@ it fails closed (no answer = no trade).
 * **Discovery/filter loop** every `cycle_seconds` (10 s). Network checks for up to
   `deep_checks_per_cycle` coins run in parallel.
 * **Position monitor** on its own thread every `monitor_seconds` (4 s), so exits are
-  not delayed by slow safety checks.
+  not delayed by slow safety checks. Positions are marked at a **real Jupiter sell
+  quote** (`quotes_per_monitor` per pass); no exit fires on a mark older than
+  `quote_fresh_seconds` (15 s) until a fresh quote confirms it.
+* **Hard rejects are permanent** (ban list outside the watch pool).
 * **Rate-limit buckets** (measured 2026-11-19): Dexscreener 250 ms, GeckoTerminal 20 s,
   RugCheck 4.5 s (15/window), Jupiter quote 0.7 s (~100/window), Jupiter tokens/shield/price
   13 s (~5/window shared), Solana RPC 150 ms.
@@ -63,7 +66,7 @@ config/wallets.csv    copy-trade watchlist (public wallets, picked by hand)
 engine/src/core       config, HTTP + rate limits, types, parsers, fee model
 engine/src/agents     the 20 agents
 engine/src/app        orchestrator (loop + monitor thread + reports)
-engine/tests          118 tests on recorded real API responses
+engine/tests          126 tests on recorded real API responses
 risk/                 OCaml risk daemon + 18 tests
 scripts/check.sh      build + tests + lint (gate)
 scripts/paper.sh      paper-trade on live data

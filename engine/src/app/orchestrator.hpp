@@ -4,6 +4,7 @@
 #include <atomic>
 #include <memory>
 #include <mutex>
+#include <set>
 #include <string>
 #include <vector>
 
@@ -25,6 +26,7 @@ class Orchestrator {
   std::string summary_json() const;
   std::string summary_text() const;
   const std::vector<Position>& positions() const { return positions_; }
+  bool is_banned(const std::string& mint) const { return banned_.count(mint) > 0; }
 
  private:
   void add_lead(const Lead& l, int64_t now);
@@ -65,9 +67,11 @@ class Orchestrator {
   mutable std::mutex mu_;                    // guards positions_, books_, traders_
   std::vector<Position> positions_;
   std::map<std::string, int> missing_;       // consecutive snapshots without the pair
+  std::set<std::string> banned_;             // hard-rejected mints: never re-admitted
   double stake_usd_;
   int watch_minutes_, deep_per_cycle_, md_calls_per_cycle_, max_pool_;
-  int cycle_seconds_, monitor_seconds_;
+  int cycle_seconds_, monitor_seconds_, quotes_per_monitor_;
+  int64_t quote_fresh_ms_;
   bool close_at_end_;
   std::atomic<bool> stop_{false};
   long cycles_ = 0, leads_ = 0, deep_checks_ = 0, buys_ = 0;

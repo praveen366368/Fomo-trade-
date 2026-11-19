@@ -57,7 +57,8 @@ Simulation results (assumption-driven, not fitted to real price paths):
 | Ladder, 90% sold by 10x | about −$0.28 |
 | **Trailing stop armed at 1.5x, 30% from peak, 5-min time stop** | **about +$0.23 … +$0.25** |
 
-Default = the trailing rule (`exit_mode = trail`). Owner's "sell at X%" rule is
+Default = the trailing rule (`exit_mode = trail`); time stop leaves at 5 min below 1.3x.
+All exit decisions use the real sellable price (Jupiter sell quote), not the screen price. Owner's "sell at X%" rule is
 `exit_mode = fixed`, `take_profit_pct = X`. Also always on: stop-loss at 0.5×, rug
 exit when liquidity drops 50%, max hold 6 h. Real pull-backs may whipsaw a 30% trail;
 test 40–50% on recorded data before going live.
