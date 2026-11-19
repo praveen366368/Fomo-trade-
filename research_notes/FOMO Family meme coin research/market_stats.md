@@ -197,13 +197,77 @@ My arithmetic, at SOL = $73.90 (2026-11-19):
 ## 6. Empirical sample: live new Solana pools, 19 Nov 2026
 
 ### Takeaway
-(placeholder: to be filled after the cohort run finishes)
+I followed two birth cohorts: 255 Solana tokens whose pools were created between 19:12 and 19:21 UTC on 19 Nov 2026, each bought "on paper" about 6 minutes after creation and tracked for about 60 minutes. Most did nothing: the median price ratio after one hour was 1.00, and 66% of the coins had zero trades in the hour before the end check. About 10% fell more than 90%, 6.3% touched 2x at some point, and only one coin genuinely touched 10x. The coins that touched 2x gave back a median 98.5% from their peak by the end.
+
+In a frictionless simulation, buying every coin with a +100% to +400% take-profit came out roughly flat (between −2% and +2% per $1, about −1% after removing one data glitch). With lean-bot costs it lost about 3-5% per $1, and with trading-app default fees it lost about 31-35% per $1. A "bid above launch" filter looked positive in a lean setup, but with n=75 that result is noise-level.
 
 ### Cited Findings
-(placeholder)
+All data here is my own pull from public APIs. Scripts and raw files are in `/tmp/claude-0/-home-user-Fomo-trade-/3e4dd943-72b3-5a68-a92f-d602376fc661/scratchpad/` (`collector.py`, `ohlcv.py`, `analyze.py`, `ds_check.py`, `ds_snapshot.py`; raw JSON in `raw/` and `cohort2/raw/`; full output in `raw/final_analysis.txt`). Sources: [GeckoTerminal new_pools API](https://api.geckoterminal.com/api/v2/networks/solana/new_pools?page=1) and the token/OHLCV endpoints; [DexScreener API](https://api.dexscreener.com/token-profiles/latest/v1). The pump.fun frontend API returned HTTP 403 (Cloudflare) and was not used.
+
+**Design**
+- **Cohort 1:** GeckoTerminal `new_pools` pages 1-10, snapshot at 19:17:48 UTC: 200 pools created 19:12:01-19:16:51 UTC (137 unique base tokens).
+- **Cohort 2:** snapshot at 19:22:58 UTC: 200 pools created 19:17:13-19:20:31 UTC (118 unique tokens).
+- **Pooled sample:** n=255 tokens. First-pool venue: pump.fun curve 211, Meteora DAMM v2 15, PumpSwap 17, Meteora DBC 10, Raydium LaunchLab 2.
+- **Entry and tracking:** entry is the token-level USD price at the first poll, a median **6.0 min after pool creation** (p10-p90: 2.8-8.6 min). Token prices were then re-polled about every 3 min for about 60 min (GeckoTerminal `tokens/multi`, which follows a coin to its new PumpSwap pool if it graduates). For the 100 tokens whose price moved, I added 1-minute OHLCV highs and lows after entry.
+- **Cross-check:** DexScreener's price at the end matched GeckoTerminal's last poll within about ±20% for **205 of 221** tokens it priced.
+- **Entry characteristics:** entry FDV median **$2,499** (p25 $2,063, p75 $4,496, p90 $16,933). Trades in the first minutes had a median of 25 (p25 4, p75 99).
+
+**Outcomes (price / entry)**
+- At +15 min: down >90%: **12/255 (4.7%)**; down >50%: 18; within ±10%: **201 (79%)**; ≥2x: 2.
+- At +30 min: down >90%: **20/255 (7.8%)**; down >50%: 26; within ±10%: 193; ≥2x: 4.
+- At +60 min (cohort 1 only, n=137): median 1.000; down >90%: **15 (10.9%)**; down >50%: 18; ≥2x: 3; ≥10x: 0.
+- At end of window (~57-60 min, n=255): p10 0.097, median 1.000; down >90%: **26 (10.2%)**; down >50%: 30 (11.8%); up ≥2x: 4 (1.6%); ≥10x: 0.
+- DexScreener at end: **145 of 221 (66%) had zero volume in the past hour**.
+- Path maximum (touched at any time in the hour):
+  - ≥1.5x: 22 (8.6%)
+  - ≥2x: **16 (6.3%)**
+  - ≥3x: 11 (4.3%)
+  - ≥5x: 6 (2.4%)
+  - ≥10x: 2 (0.8%), but one of these is a bad OHLCV print (see Gaps), so **1 genuine (0.4%)**
+  - ≥100x: 0 genuine
+- Path minimum: 29 (11.4%) touched ≤0.1x.
+- Give-back: of the 16 coins that touched 2x, the median end/peak ratio was **0.015** (p75 0.37). Most gave back nearly everything within the hour.
+
+**By venue and supply**
+- **Standard pump.fun curve (1B supply), n=127:** entry FDV median $2,269 (at the ~$2,066 launch floor). Only 3 ended down >90%, all coins that had been bid well above launch and then graduated or dumped (e.g. TILT, entry ~$20K FDV). 5 touched 2x and none touched 5x; median end ratio 1.000.
+- **Mayhem Mode (2B supply) pump.fun coins, n=84, i.e. 40% of pump.fun pools in the sample:** 5 ended down >90%. Some fell below the standard launch floor, to FDVs of $5-$100 (e.g. "ninu": FDV ~$2,070 → $9 within ~15 min, despite 307 trades by 42 traders).
+- **Non-pump.fun-curve first pools (PumpSwap, Meteora DBC/DAMM, LaunchLab), n=44:** much more volatile. 22.7% touched 2x, but **18/44 (41%) ended down >90%**; Meteora DBC 9/10 ended down >90%.
+
+**Strategy simulation** ($1 into each coin at entry; sell at the target if the path max reached it, otherwise sell at the end price; fees applied per side; sales worth less than the fixed fee are skipped). Mean P&L per $1:
+
+| Subset (n) | Cost scenario | TP +100% | TP +200% | TP +400% | Hold 60 min |
+|---|---|---|---|---|---|
+| All (255) | A lean (1.25%/side + 0.000055 SOL/tx) | −5.4% | −2.7% | −1.2% | −9.3% |
+| All (255) | B app defaults (2.25%/side + 0.002 SOL/tx) | −35.2% | −32.6% | −30.9% | −38.5% |
+| All (255) | C zero cost | −2.2% | +0.5% | +2.2% | −6.1% |
+| ≥10 trades in first minutes (164) | A lean | −6.1% | −2.6% | −1.3% | −10.9% |
+| Entry FDV ≥ $4K (75) | A lean | +1.1% | +12.6% | +18.0% | −9.5% |
+| Entry FDV ≥ $4K (75) | B app defaults | −28.2% | −16.9% | −11.1% | −37.1% |
+| Standard 1B curve only (127) | A lean | −3.1% | −6.0% | −8.2% | −8.2% |
+
+**Simulation caveats**
+- One spurious OHLCV print (see Gaps) counts as a take-profit hit at every target. Removing it lowers the "All" totals by about $2.9 (TP +200%) and $4.8 (TP +400%) on $255, about 1.1-1.9 points per $1. The "All, lean, TP +400%" figure becomes roughly −3%.
+- The same coin is very likely in the FDV ≥ $4K subset. Removing it there lowers the results by about 4-6 points per $1; they stay positive but rest on about 11 winning coins.
+
+**Cross-sectional DexScreener snapshot ("promoted" tokens)**
+- Solana tokens in DexScreener's latest paid profiles, boosts and community takeovers: n=57 at 19:20:57 UTC and n=62 at 20:23:33 UTC. This is a self-selected set.
+- At 19:21 UTC: age median 16.4h; liquidity median $17.0K; 24h volume median $123K. h1 change median −0.6% (3 below −50%, 5 above +100%). h24 change: p10 −85%, median −1.2%, p90 +349%; 5 below −90%, 14 above +100%.
+- At 20:24 UTC: h24 change: p10 −94%, median −4.8%, p90 +300%; 9 of 60 below −90%, 16 above +100%. Among tokens at least 24h old (n=22), h24 median −3.6%.
 
 ### Inferences
-(placeholder)
+- **Base rates for "buy everything new" (one Thursday evening UTC, n=255, 1-hour horizon):** roughly 79% of coins barely move in their first 15-30 minutes after you could buy them, because no one trades them. About 8-11% go to roughly zero within the hour. About 6% touch 2x, about 2% touch 5x, and about 0.4% touch 10x, all within minutes, and almost all of them round-trip.
+  - These are rates for entry about 6 minutes after creation. Entry at second 0 would show more upside, which is captured by snipers and bundlers (Key Question 4).
+- **The take-profit rule matters, but costs dominate.** Holding for an hour is clearly worse than any take-profit level, because winners round-trip. Without costs, take-profits between +100% and +400% land roughly at break-even. Realistic lean-bot costs (about 3.3% round trip) push every variant negative, and app-default costs at a $1 ticket (about 34%) make it deeply negative in every subset.
+  - The most promising signal was "coin already bid above launch price / not on a fresh curve" with a +200% to +400% take-profit. That sample is too small (75 coins, about 11 hits) and too short (one hour, one evening) to separate from luck. It should be re-tested on several thousand coins before anyone relies on it.
+- **Structural risk depends on venue.** A standard pump.fun curve coin bought near launch has a hard floor at the launch price. In the sample the p10 end ratio was 0.84, and only 3 of 127 fell more than 90%, all after being bid far above launch. Mayhem Mode coins (40% of new pump.fun pools in this sample) and coins already on AMM pools (PumpSwap, Meteora) carry real −100% risk: 41% of non-curve first pools ended down more than 90% within the hour. A "promising coin" filter that favours already-graduated or AMM-listed coins raises both the 2x hit rate and the wipe-out rate.
+- The finding that 66% of coins had zero trades in the past hour, about an hour after launch, matches the CoinGecko and Bitquery "dies on launch day" statistics (Key Question 2), which measure trading cessation.
 
 ### Gaps
-(placeholder)
+- **Snapshot and time bias:** two 5-minute launch windows on one weekday evening (19:12-19:21 UTC, 19 Nov 2026) in a weak market (SOL $73.90). The results may not generalize to other hours or to hype phases. The horizon was only about 60 min, so no 6h or 24h outcomes for the birth cohorts. The 6h/24h distribution is available only from the self-selected DexScreener set.
+- **Sampling resolution:** prices were polled every ~3 min, plus 1-minute OHLCV highs and lows. Sub-minute spikes and real fill prices are not captured. Take-profit hits assume you could sell exactly at the target, which is optimistic for fast spikes. There is no modelling of latency, failed transactions or sandwiching.
+- **Data errors:**
+  - One OHLCV candle ("Christmas/SOL" on PumpSwap) showed a high 66 million times entry, clearly a bad print. It is counted in the raw script output (the "≥100x: 1" line), and I have corrected for it in the text above.
+  - Any token that GeckoTerminal did not return at a poll was carried at its last price. I did not count how often this happened.
+  - GeckoTerminal's `new_pools` feed may not include every new Solana pool, so this is a sample of GeckoTerminal-indexed pools.
+  - Extra rate limiting (HTTP 429), partly from another process on the same IP, slowed polling to about every 3.0-3.3 min.
+- **Not measured:** the pump.fun API (blocked), launches on other chains (Base, BNB, Robinhood Chain), and which wallets captured the gains on the coins that spiked.
