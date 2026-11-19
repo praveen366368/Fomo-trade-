@@ -126,6 +126,7 @@ ExitManager::ExitManager(const Config& c)
 
 ExitManager::Action ExitManager::evaluate(const Position& p, int64_t now) const {
   if (p.closed || p.tokens_left <= 0) return {};
+  count_run();
   const double m = p.multiple();
   const double held_min = static_cast<double>(now - p.opened_ms) / 60000.0;
   const double all = 1.0;  // fraction_of_initial >= remaining closes the position

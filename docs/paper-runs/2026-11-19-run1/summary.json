@@ -1,0 +1,280 @@
+{
+  "agents": [
+    {
+      "fails": 0,
+      "id": 1,
+      "job": "finds brand-new pools and launches",
+      "name": "LaunchScout",
+      "passes": 0,
+      "runs": 128
+    },
+    {
+      "fails": 0,
+      "id": 2,
+      "job": "finds coins trending or being promoted (boosts)",
+      "name": "TrendScout",
+      "passes": 0,
+      "runs": 39
+    },
+    {
+      "fails": 0,
+      "id": 3,
+      "job": "turns tracked wallets' fresh buys into leads",
+      "name": "SmartMoney",
+      "passes": 0,
+      "runs": 0
+    },
+    {
+      "fails": 0,
+      "id": 4,
+      "job": "curates copy-trade wallets and scores them by results",
+      "name": "TraderScout",
+      "passes": 0,
+      "runs": 0
+    },
+    {
+      "fails": 0,
+      "id": 5,
+      "job": "batch price, liquidity and order-flow snapshots",
+      "name": "MarketData",
+      "passes": 0,
+      "runs": 1090
+    },
+    {
+      "fails": 0,
+      "id": 6,
+      "job": "watches API latency, errors and rate limits",
+      "name": "ApiHealth",
+      "passes": 0,
+      "runs": 131
+    },
+    {
+      "fails": 3242,
+      "id": 7,
+      "job": "measures how violently a coin is moving",
+      "name": "Volatility",
+      "passes": 18476,
+      "runs": 21718
+    },
+    {
+      "fails": 20322,
+      "id": 8,
+      "job": "enough liquidity, right age and size window",
+      "name": "LiquidityGuard",
+      "passes": 1396,
+      "runs": 21718
+    },
+    {
+      "fails": 19852,
+      "id": 9,
+      "job": "socials present, not a copy-cat ticker",
+      "name": "SocialCheck",
+      "passes": 1866,
+      "runs": 21718
+    },
+    {
+      "fails": 20413,
+      "id": 10,
+      "job": "buyer pressure and volume speed, last 5 min",
+      "name": "Momentum",
+      "passes": 1305,
+      "runs": 21718
+    },
+    {
+      "fails": 20,
+      "id": 11,
+      "job": "contract traps: authorities, Token-2022, RugCheck dangers",
+      "name": "RugGuard",
+      "passes": 125,
+      "runs": 145
+    },
+    {
+      "fails": 22,
+      "id": 12,
+      "job": "holder concentration, insiders, serial launchers",
+      "name": "HolderAnalyst",
+      "passes": 123,
+      "runs": 145
+    },
+    {
+      "fails": 2,
+      "id": 13,
+      "job": "proves we can sell: Shield + round-trip quote",
+      "name": "HoneypotTester",
+      "passes": 288,
+      "runs": 290
+    },
+    {
+      "fails": 119,
+      "id": 14,
+      "job": "real buyers or bots? organic volume and trader count",
+      "name": "OrganicFlow",
+      "passes": 26,
+      "runs": 216
+    },
+    {
+      "fails": 0,
+      "id": 15,
+      "job": "AI read of the coin's story and hype (optional)",
+      "name": "NarrativeAI",
+      "passes": 0,
+      "runs": 0
+    },
+    {
+      "fails": 0,
+      "id": 16,
+      "job": "adds every verdict into one score and decides",
+      "name": "Strategist",
+      "passes": 5,
+      "runs": 5
+    },
+    {
+      "fails": 0,
+      "id": 17,
+      "job": "OCaml limits engine; approves or blocks every buy",
+      "name": "RiskGovernor",
+      "passes": 5,
+      "runs": 5
+    },
+    {
+      "fails": 0,
+      "id": 18,
+      "job": "places $1 buys and the sells; paper mode by default",
+      "name": "Executor",
+      "passes": 10,
+      "runs": 10
+    },
+    {
+      "fails": 0,
+      "id": 19,
+      "job": "take-profit ladder, trailing stop, stop-loss, time stop",
+      "name": "ExitManager",
+      "passes": 0,
+      "runs": 0
+    },
+    {
+      "fails": 0,
+      "id": 20,
+      "job": "books every trade and tests the filters on rejected coins",
+      "name": "Auditor",
+      "passes": 0,
+      "runs": 5
+    }
+  ],
+  "apis": {
+    "api.dexscreener.com": {
+      "avg_ms": 209.0616883116883,
+      "calls": 1232,
+      "errors": 0,
+      "rate_limited": 0
+    },
+    "api.geckoterminal.com": {
+      "avg_ms": 6267.421875,
+      "calls": 64,
+      "errors": 0,
+      "rate_limited": 13
+    },
+    "api.rugcheck.xyz": {
+      "avg_ms": 2483.125,
+      "calls": 40,
+      "errors": 0,
+      "rate_limited": 0
+    },
+    "lite-api.jup.ag": {
+      "avg_ms": 4565.396436525612,
+      "calls": 449,
+      "errors": 0,
+      "rate_limited": 1
+    }
+  },
+  "best_peak_multiple": 1.3368058751445897,
+  "buys": 5,
+  "closed": 5,
+  "cycles": 131,
+  "deep_checks": 145,
+  "fees_usd": 0.040414491809992674,
+  "leads": 4860,
+  "minutes": 45.24218333333334,
+  "mode": "paper",
+  "open": 0,
+  "open_value_usd": 0.0,
+  "paper_balance_usd": 249.06542476382373,
+  "pnl_closed_usd": -0.9345752361762242,
+  "positions": [
+    {
+      "closed": true,
+      "fees": 0.008092815351621756,
+      "held_min": 5.034,
+      "mint": "J8JjZXF6XE3zDp3zVQPYxkC9SNDuejGh8Eh6hjKgpump",
+      "multiple": 1.0208596745268192,
+      "peak_multiple": 1.0438429081690608,
+      "pnl": -0.10928741154648225,
+      "score": 96.57406405764563,
+      "source": "trend:boost",
+      "symbol": "JETSKI",
+      "why": "time stop"
+    },
+    {
+      "closed": true,
+      "fees": 0.008093333903784698,
+      "held_min": 5.01295,
+      "mint": "BxpmBqQNRYoJXoP6F9abvcLfp1fgYJzafsyDEFEppump",
+      "multiple": 0.8665344089187127,
+      "peak_multiple": 1.0,
+      "pnl": -0.10710436440882387,
+      "score": 97.10770809608096,
+      "source": "launch:dex-profile",
+      "symbol": "GTABANK",
+      "why": "time stop"
+    },
+    {
+      "closed": true,
+      "fees": 0.008093283582089552,
+      "held_min": 5.02465,
+      "mint": "6ayRQ5AgLQpPnBgEQ5WP9iRt7t7mXmiUN98ZTtFJpump",
+      "multiple": 0.928035002268576,
+      "peak_multiple": 1.0,
+      "pnl": -0.16931405796336507,
+      "score": 96.81024236906372,
+      "source": "launch:dex-profile",
+      "symbol": "CATMARIO",
+      "why": "time stop"
+    },
+    {
+      "closed": true,
+      "fees": 0.008079638773578035,
+      "held_min": 9.190783333333334,
+      "mint": "FSfZuwaRFVcTtVBsiJ45NYK7Mwi3ANRcVT8kpbevtPGj",
+      "multiple": 1.0521285618365968,
+      "peak_multiple": 1.3368058751445897,
+      "pnl": -0.3705909887008144,
+      "score": 83.72571191862717,
+      "source": "launch:dex-profile",
+      "symbol": "ONI",
+      "why": "end of run"
+    },
+    {
+      "closed": true,
+      "fees": 0.00805542019891863,
+      "held_min": 5.050516666666667,
+      "mint": "7bCiddGLe5aM8HE2pigT9jsqkmC1HSPxyXN6GkHEpump",
+      "multiple": 0.8848477772504699,
+      "peak_multiple": 1.0,
+      "pnl": -0.17827841355673857,
+      "score": 100.0,
+      "source": "trend:boost",
+      "symbol": "OGTA",
+      "why": "time stop"
+    }
+  ],
+  "rejected_by_agent": {
+    "HolderAnalyst": 7,
+    "HoneypotTester": 2,
+    "LiquidityGuard": 416,
+    "RugGuard": 20
+  },
+  "stake_usd": 1.0,
+  "started_ms": 1795117043171,
+  "watch_pool": 400,
+  "wins": 0
+}

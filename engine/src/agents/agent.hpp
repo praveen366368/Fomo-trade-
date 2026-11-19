@@ -51,12 +51,13 @@ class Agent {
     fails_++;
     return Verdict{name_, false, hard, score, std::move(why)};
   }
-  void count_run() { runs_++; }
+  void count_run() const { runs_++; }
 
  private:
   int id_;
   std::string name_, job_;
-  std::atomic<long> runs_{0}, passes_{0}, fails_{0};
+  mutable std::atomic<long> runs_{0};
+  std::atomic<long> passes_{0}, fails_{0};
 };
 
 // ---------------------------------------------------------------- DISCOVER

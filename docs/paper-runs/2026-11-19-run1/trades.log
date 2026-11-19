@@ -1,0 +1,13 @@
+19:38:11 INFO  [Executor] BUY $JETSKI $1.0000 score 96 | LiquidityGuard{liq $12816, mcap $35823} SocialCheck{3 social li
+19:43:13 INFO  [ExitManager] SELL $JETSKI time stop @+2.1% got $0.8948
+19:43:13 INFO  [Accountant] CLOSED $JETSKI pnl -$0.1093 peak +4.4% (time stop)
+19:44:10 INFO  [Executor] BUY $GTABANK $1.0000 score 97 | LiquidityGuard{liq $8390, mcap $13275} SocialCheck{3 social li
+19:45:28 INFO  [Executor] BUY $CATMARIO $1.0000 score 96 | LiquidityGuard{liq $54783, mcap $573940} SocialCheck{3 social
+19:49:11 INFO  [ExitManager] SELL $GTABANK time stop @-13.3% got $0.8969
+19:49:11 INFO  [Accountant] CLOSED $GTABANK pnl -$0.1071 peak +0.0% (time stop)
+19:50:29 INFO  [ExitManager] SELL $CATMARIO time stop @-7.2% got $0.8347
+19:50:29 INFO  [Accountant] CLOSED $CATMARIO pnl -$0.1693 peak +0.0% (time stop)
+20:13:26 INFO  [Executor] BUY $ONI $1.0000 score 83 | LiquidityGuard{liq $19581, mcap $51006} SocialCheck{2 social link(
+20:15:36 INFO  [Executor] BUY $OGTA $1.0000 score 100 | LiquidityGuard{liq $83241, mcap $1253633} SocialCheck{2 social l
+20:20:39 INFO  [ExitManager] SELL $OGTA time stop @-11.5% got $0.8257
+20:20:39 INFO  [Accountant] CLOSED $OGTA pnl -$0.1783 peak +0.0% (time stop)
