@@ -1,0 +1,11 @@
+# Copy-trade watchlist for agents 3 (SmartMoney) and 4 (TraderScout).
+# label,address,origin
+#
+# Add only PUBLIC Solana wallets. FOMO's Terms ban scraping, so pick traders
+# by hand from the in-app leaderboard (24h/7d/30d, "100_1k" size class) or
+# from public on-chain trackers (GMGN, Kolscan, Birdeye top traders), then
+# paste their wallet here. TraderScout mutes a wallet automatically if fewer
+# than 15% of its last 8+ signals reached 2x.
+#
+# example (do not use):
+# trader_a,11111111111111111111111111111111,manual

@@ -1,0 +1,9 @@
+# build outputs
+engine/build/
+risk/_build/
+# run data (ledgers, logs) - keep only committed sample runs under docs/
+data/
+# never commit secrets
+.env
+*.key
+*keypair*.json
