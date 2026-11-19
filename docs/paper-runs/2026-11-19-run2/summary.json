@@ -1,0 +1,265 @@
+{
+  "agents": [
+    {
+      "fails": 0,
+      "id": 1,
+      "job": "finds brand-new pools and launches",
+      "name": "LaunchScout",
+      "passes": 0,
+      "runs": 50
+    },
+    {
+      "fails": 0,
+      "id": 2,
+      "job": "finds coins trending or being promoted (boosts)",
+      "name": "TrendScout",
+      "passes": 0,
+      "runs": 14
+    },
+    {
+      "fails": 0,
+      "id": 3,
+      "job": "turns tracked wallets' fresh buys into leads",
+      "name": "SmartMoney",
+      "passes": 0,
+      "runs": 0
+    },
+    {
+      "fails": 0,
+      "id": 4,
+      "job": "curates copy-trade wallets and scores them by results",
+      "name": "TraderScout",
+      "passes": 0,
+      "runs": 0
+    },
+    {
+      "fails": 0,
+      "id": 5,
+      "job": "batch price, liquidity and order-flow snapshots",
+      "name": "MarketData",
+      "passes": 0,
+      "runs": 496
+    },
+    {
+      "fails": 0,
+      "id": 6,
+      "job": "watches API latency, errors and rate limits",
+      "name": "ApiHealth",
+      "passes": 0,
+      "runs": 64
+    },
+    {
+      "fails": 1,
+      "id": 7,
+      "job": "measures how violently a coin is moving",
+      "name": "Volatility",
+      "passes": 20,
+      "runs": 21
+    },
+    {
+      "fails": 9188,
+      "id": 8,
+      "job": "enough liquidity, right age and size window",
+      "name": "LiquidityGuard",
+      "passes": 508,
+      "runs": 9696
+    },
+    {
+      "fails": 273,
+      "id": 9,
+      "job": "socials present, not a copy-cat ticker",
+      "name": "SocialCheck",
+      "passes": 235,
+      "runs": 508
+    },
+    {
+      "fails": 214,
+      "id": 10,
+      "job": "buyer pressure and volume speed, last 5 min",
+      "name": "Momentum",
+      "passes": 21,
+      "runs": 235
+    },
+    {
+      "fails": 0,
+      "id": 11,
+      "job": "contract traps: authorities, Token-2022, RugCheck dangers",
+      "name": "RugGuard",
+      "passes": 18,
+      "runs": 18
+    },
+    {
+      "fails": 2,
+      "id": 12,
+      "job": "holder concentration, insiders, serial launchers",
+      "name": "HolderAnalyst",
+      "passes": 16,
+      "runs": 18
+    },
+    {
+      "fails": 0,
+      "id": 13,
+      "job": "proves we can sell: Shield + round-trip quote",
+      "name": "HoneypotTester",
+      "passes": 36,
+      "runs": 36
+    },
+    {
+      "fails": 13,
+      "id": 14,
+      "job": "real buyers or bots? organic volume and trader count",
+      "name": "OrganicFlow",
+      "passes": 5,
+      "runs": 31
+    },
+    {
+      "fails": 0,
+      "id": 15,
+      "job": "AI read of the coin's story and hype (optional)",
+      "name": "NarrativeAI",
+      "passes": 0,
+      "runs": 0
+    },
+    {
+      "fails": 0,
+      "id": 16,
+      "job": "adds every verdict into one score and decides",
+      "name": "Strategist",
+      "passes": 4,
+      "runs": 4
+    },
+    {
+      "fails": 0,
+      "id": 17,
+      "job": "OCaml limits engine; approves or blocks every buy",
+      "name": "RiskGovernor",
+      "passes": 4,
+      "runs": 4
+    },
+    {
+      "fails": 0,
+      "id": 18,
+      "job": "places $1 buys and the sells; paper mode by default",
+      "name": "Executor",
+      "passes": 8,
+      "runs": 8
+    },
+    {
+      "fails": 0,
+      "id": 19,
+      "job": "take-profit ladder, trailing stop, stop-loss, time stop",
+      "name": "ExitManager",
+      "passes": 0,
+      "runs": 224
+    },
+    {
+      "fails": 0,
+      "id": 20,
+      "job": "books every trade and tests the filters on rejected coins",
+      "name": "Auditor",
+      "passes": 0,
+      "runs": 4
+    }
+  ],
+  "apis": {
+    "api.dexscreener.com": {
+      "avg_ms": 213.0783242258652,
+      "calls": 549,
+      "errors": 0,
+      "rate_limited": 0
+    },
+    "api.geckoterminal.com": {
+      "avg_ms": 2384.28,
+      "calls": 25,
+      "errors": 0,
+      "rate_limited": 2
+    },
+    "api.rugcheck.xyz": {
+      "avg_ms": 4577.857142857143,
+      "calls": 7,
+      "errors": 0,
+      "rate_limited": 0
+    },
+    "lite-api.jup.ag": {
+      "avg_ms": 1664.1224489795918,
+      "calls": 294,
+      "errors": 0,
+      "rate_limited": 0
+    }
+  },
+  "best_peak_multiple": 1.193758915276382,
+  "buys": 4,
+  "closed": 4,
+  "cycles": 64,
+  "deep_checks": 18,
+  "fees_usd": 0.032106120946796886,
+  "leads": 1872,
+  "minutes": 15.01455,
+  "mode": "paper",
+  "open": 0,
+  "open_value_usd": 0.0,
+  "paper_balance_usd": 249.78441066960187,
+  "pnl_closed_usd": -0.21558933039817751,
+  "positions": [
+    {
+      "closed": true,
+      "fees": 0.008032109976051235,
+      "held_min": 5.110616666666667,
+      "mint": "7bCiddGLe5aM8HE2pigT9jsqkmC1HSPxyXN6GkHEpump",
+      "multiple": 0.9332217231666157,
+      "peak_multiple": 1.01530774986156,
+      "pnl": -0.1026741449207349,
+      "score": 100.0,
+      "source": "launch:dex-profile",
+      "symbol": "OGTA",
+      "why": "time stop"
+    },
+    {
+      "closed": true,
+      "fees": 0.008032109976051235,
+      "held_min": 5.1224,
+      "mint": "BxpmBqQNRYoJXoP6F9abvcLfp1fgYJzafsyDEFEppump",
+      "multiple": 0.9075107208224364,
+      "peak_multiple": 0.9465324196402527,
+      "pnl": -0.1272882739352127,
+      "score": 96.41641561988006,
+      "source": "launch:dex-profile",
+      "symbol": "GTABANK",
+      "why": "time stop"
+    },
+    {
+      "closed": true,
+      "fees": 0.008023703938387469,
+      "held_min": 5.05985,
+      "mint": "47HUoJ3EiL1h8kej8hEcUjFrxUkohNMSSbQHidPCpump",
+      "multiple": 0.985480380045142,
+      "peak_multiple": 1.1562343061472478,
+      "pnl": -0.05208205945678668,
+      "score": 80.20551873074558,
+      "source": "launch:dex-profile",
+      "symbol": "LOOSY",
+      "why": "time stop"
+    },
+    {
+      "closed": true,
+      "fees": 0.008018197056306946,
+      "held_min": 5.052316666666667,
+      "mint": "5k8yMkEzcekeufWvTk5zvuZ8xnx2PqNdxs86E9P2bvQf",
+      "multiple": 1.1082882774765646,
+      "peak_multiple": 1.193758915276382,
+      "pnl": 0.06645514791455676,
+      "score": 96.33981419687211,
+      "source": "launch:geckoterminal",
+      "symbol": "AI",
+      "why": "time stop"
+    }
+  ],
+  "rejected_by_agent": {
+    "HolderAnalyst": 2,
+    "LiquidityGuard": 60
+  },
+  "stake_usd": 1.0,
+  "started_ms": 1795121691349,
+  "watch_pool": 327,
+  "wins": 1
+}

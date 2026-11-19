@@ -1,0 +1,12 @@
+20:55:19 INFO  [Executor] BUY $OGTA $1.0000 score 100 | LiquidityGuard{liq $77878, mcap $1093702} SocialCheck{2 social l
+20:55:19 INFO  [Executor] BUY $GTABANK $1.0000 score 96 | LiquidityGuard{liq $8557, mcap $13528} SocialCheck{3 social li
+20:55:45 INFO  [Executor] BUY $LOOSY $1.0000 score 80 | LiquidityGuard{liq $20266, mcap $57284} SocialCheck{1 social lin
+21:00:26 INFO  [ExitManager] SELL $OGTA time stop @-6.7% got $0.9013
+21:00:26 INFO  [Accountant] CLOSED $OGTA pnl -$0.1027 peak +1.5% (time stop)
+21:00:26 INFO  [ExitManager] SELL $GTABANK time stop @-9.2% got $0.8767
+21:00:26 INFO  [Accountant] CLOSED $GTABANK pnl -$0.1273 peak -5.3% (time stop)
+21:00:48 INFO  [ExitManager] SELL $LOOSY time stop @-1.5% got $0.9519
+21:00:48 INFO  [Accountant] CLOSED $LOOSY pnl -$0.0521 peak +15.6% (time stop)
+21:00:57 INFO  [Executor] BUY $AI $1.0000 score 96 | LiquidityGuard{liq $73378, mcap $143761} SocialCheck{2 social link(
+21:06:00 INFO  [ExitManager] SELL $AI time stop @+10.8% got $1.0705
+21:06:00 INFO  [Accountant] CLOSED $AI pnl $0.0665 peak +19.4% (time stop)

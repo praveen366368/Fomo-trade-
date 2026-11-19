@@ -1,0 +1,502 @@
+{
+  "by_agent": {
+    "HolderAnalyst": {
+      "later_2x": 0,
+      "later_dead": 0,
+      "rejected": 2
+    },
+    "LiquidityGuard": {
+      "later_2x": 0,
+      "later_dead": 38,
+      "rejected": 52
+    }
+  },
+  "coins": [
+    {
+      "agent": "LiquidityGuard",
+      "checks": 2,
+      "last_multiple": 1.0,
+      "max_multiple_seen": 1.0,
+      "mint": "13HczT5TAwv1JZmhFA3nTCQjNjk3o1Woa1yP8GgHCqSq",
+      "reason": "dead pool ($0 liquidity)",
+      "symbol": "A\\"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 2,
+      "last_multiple": 0.985312422205626,
+      "max_multiple_seen": 1.0,
+      "mint": "2FcsqRrhvgSfYxJWh32xW873vyqBZ9jmMyXqYSPgNtuZ",
+      "reason": "too old (1023684 min)",
+      "symbol": "Lucia"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 2,
+      "last_multiple": 1.0100860278849007,
+      "max_multiple_seen": 1.0154256897063187,
+      "mint": "2bCCHQadi4QeHWPKG3w13siCyWWQPgkFtniouTqVpump",
+      "reason": "too old (50435 min)",
+      "symbol": "1"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 1,
+      "last_multiple": 1.0,
+      "max_multiple_seen": 1.0,
+      "mint": "2gFa1An82sdnEDVg6PLBFC41u1wrSUG3BpjAqNsnoEeu",
+      "reason": "dead pool ($0 liquidity)",
+      "symbol": "GTA6"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 2,
+      "last_multiple": 1.114708603145236,
+      "max_multiple_seen": 1.147086031452359,
+      "mint": "2xCd5qHX5tW6pGUo7zfgHSSAnRjJwPA7Sz1Fu4fWcJjX",
+      "reason": "too old (1942 min)",
+      "symbol": "Mandy"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 2,
+      "last_multiple": 1.0,
+      "max_multiple_seen": 1.0,
+      "mint": "33nHALAagJL84uNroxW19P6pZza2ksq3eLuNw5B6uGmk",
+      "reason": "dead pool ($1 liquidity)",
+      "symbol": "LOOSY"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 1,
+      "last_multiple": 1.0,
+      "max_multiple_seen": 1.0,
+      "mint": "3vdDDhyRuA9P6kiJTf5dPUVVbEjsyiNn5XkVKCBYCEKL",
+      "reason": "dead pool ($0 liquidity)",
+      "symbol": "LOOSY"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 2,
+      "last_multiple": 1.0,
+      "max_multiple_seen": 1.0,
+      "mint": "4KXCDChFWqgKdBWzYTaZa76SJAcip8p1n5ky2Pdopump",
+      "reason": "too old (7181 min)",
+      "symbol": "ERIK"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 1,
+      "last_multiple": 1.0629163582531458,
+      "max_multiple_seen": 1.0629163582531458,
+      "mint": "4zJq7LcjgTRWzbrSDaZoFzeS9xgF5t9FUL6CV1SaNkDF",
+      "reason": "dead pool ($0 liquidity)",
+      "symbol": "Rockstar"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 1,
+      "last_multiple": 1.0964819568171522,
+      "max_multiple_seen": 1.0964819568171522,
+      "mint": "58iPDNe935vmfcQSzXDpW9PWf6rmyGCaRGSFWadFVr2D",
+      "reason": "dead pool ($0 liquidity)",
+      "symbol": "‮EROCT"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 2,
+      "last_multiple": 0.9692069499397901,
+      "max_multiple_seen": 1.0,
+      "mint": "5EpUkeRekk1uzWKoJz9fyYYA3Vwt6bTtdRNpVtkMpump",
+      "reason": "too old (4104 min)",
+      "symbol": "scat"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 1,
+      "last_multiple": 1.0,
+      "max_multiple_seen": 1.0,
+      "mint": "5QgfKxGjwBJQbcebhGDiBBVGFUy3j9piWBRHiRaeUwKH",
+      "reason": "dead pool ($0 liquidity)",
+      "symbol": "GTA6"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 2,
+      "last_multiple": 1.0,
+      "max_multiple_seen": 1.0,
+      "mint": "5w9aErJNLR71RMNEqxW2wEgL1ZqFWDUBKY6JKUxcAo1f",
+      "reason": "dead pool ($0 liquidity)",
+      "symbol": "LOOSY"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 1,
+      "last_multiple": 1.0,
+      "max_multiple_seen": 1.0,
+      "mint": "5wdjoUv9jRNY5yXVHWNjLLaoZ37hbGcszP8ua2WRFRw6",
+      "reason": "dead pool ($3 liquidity)",
+      "symbol": "Fiona"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 2,
+      "last_multiple": 1.029951690821256,
+      "max_multiple_seen": 1.029951690821256,
+      "mint": "678JnFuwWc6v4QTS5G8yQ6X5grobWVAWAP4L2mL6hZQR",
+      "reason": "dead pool ($0 liquidity)",
+      "symbol": "MI"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 1,
+      "last_multiple": 1.0,
+      "max_multiple_seen": 1.0,
+      "mint": "6nwY1PbEGRD7NvyoBsTJLf6erMbY91z3HpTEhgRfniwj",
+      "reason": "dead pool ($3 liquidity)",
+      "symbol": "FIONA"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 2,
+      "last_multiple": 1.0,
+      "max_multiple_seen": 1.0,
+      "mint": "6zQzSovmhCRRABMJRPk3MdyxVJHQbkwgQ1CtqQ79N93D",
+      "reason": "dead pool ($0 liquidity)",
+      "symbol": "chudhaos"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 1,
+      "last_multiple": 1.0,
+      "max_multiple_seen": 1.0,
+      "mint": "7xMfL1kFHJxwXVi3GEwY4x8u2gqhgps7nmWj71Fbn3Di",
+      "reason": "dead pool ($0 liquidity)",
+      "symbol": "DCTY"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 1,
+      "last_multiple": 1.0,
+      "max_multiple_seen": 1.0,
+      "mint": "7zt3oGenVXWYGPZGnUSK2oi17ddktTrxrKfjw1mZw3yH",
+      "reason": "dead pool ($0 liquidity)",
+      "symbol": "MANDY"
+    },
+    {
+      "agent": "HolderAnalyst",
+      "checks": 2,
+      "last_multiple": 0.8793077040894471,
+      "max_multiple_seen": 1.0,
+      "mint": "82u71wqQSa4NmD1UTTDwKyh5EUm3xe9pMp4UZXhFpump",
+      "reason": "top-10 wallets hold 43.5%",
+      "symbol": "DAINU"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 1,
+      "last_multiple": 1.0,
+      "max_multiple_seen": 1.0,
+      "mint": "8C89GyZqzi5t45Ee2DtEwdpgWu996Q4tRiv6QJX6stJh",
+      "reason": "dead pool ($3 liquidity)",
+      "symbol": "FIONA"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 1,
+      "last_multiple": 1.0,
+      "max_multiple_seen": 1.0,
+      "mint": "8PRcm7E1LRh8W9fFDySg8B1rqvZC7wBVHqiMR11Mr5Wf",
+      "reason": "dead pool ($0 liquidity)",
+      "symbol": "PRBB"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 2,
+      "last_multiple": 0.3938150836225939,
+      "max_multiple_seen": 1.0,
+      "mint": "8gnQd82dU6x3SBLFvgbjCsNPD2t93A59vZgHB3tMpump",
+      "reason": "dead pool ($4 liquidity)",
+      "symbol": "DOGGO"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 2,
+      "last_multiple": 1.0,
+      "max_multiple_seen": 1.0,
+      "mint": "95vcm31HbsXzz2AJGusx6wKbP8i19N6RjT3PCAMNR2sr",
+      "reason": "dead pool ($0 liquidity)",
+      "symbol": "Shatcoin"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 2,
+      "last_multiple": 0.9293809938971229,
+      "max_multiple_seen": 1.0,
+      "mint": "9N9bb4RfTzGS11Vixf4hrAxLfkjo8t9DLhvEFMutpump",
+      "reason": "too old (809720 min)",
+      "symbol": "jason"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 2,
+      "last_multiple": 0.9537836465210768,
+      "max_multiple_seen": 1.0,
+      "mint": "9QT8K685Hrae4k11dhGXirdtpfAaimExtyfwt8cPpump",
+      "reason": "too old (32182 min)",
+      "symbol": "DIGS"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 1,
+      "last_multiple": 1.0,
+      "max_multiple_seen": 1.0,
+      "mint": "A9bxgmgzq9NmnBEWgRfCpbAa6mi1PMZ8d73ZCzj4pump",
+      "reason": "dead pool ($0 liquidity)",
+      "symbol": "ELLACMA"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 2,
+      "last_multiple": 1.0,
+      "max_multiple_seen": 1.0,
+      "mint": "AbaVzFBs99eCARKoBRC49hgpnNVf5TfUnwSRmVRJpump",
+      "reason": "too old (29153 min)",
+      "symbol": "Buttigieg "
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 2,
+      "last_multiple": 1.0,
+      "max_multiple_seen": 1.0,
+      "mint": "Ay479pQPk4GGkucKuwqoGnKcNRWNdcpW2oLsdbazUCHG",
+      "reason": "dead pool ($0 liquidity)",
+      "symbol": "CHANGE"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 2,
+      "last_multiple": 0.9951219512195121,
+      "max_multiple_seen": 1.0,
+      "mint": "BVEaDToN2Ufn8m1Jnqy8rtwwCiiMC7JcFtvmKPxTpump",
+      "reason": "too old (142879 min)",
+      "symbol": "GTA"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 1,
+      "last_multiple": 0.38223394898856644,
+      "max_multiple_seen": 1.0,
+      "mint": "CJGyfjwXQPAAqYxCpsRg51bMkwRDBgmSDhEiXLpARvx7",
+      "reason": "dead pool ($0 liquidity)",
+      "symbol": "INSCRIBOOR"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 2,
+      "last_multiple": 1.0,
+      "max_multiple_seen": 1.0,
+      "mint": "CMekkwQpY3J6adSYr7TPQFULujaysMYdCQBErXXjwm9P",
+      "reason": "dead pool ($0 liquidity)",
+      "symbol": "FIONA"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 1,
+      "last_multiple": 1.0,
+      "max_multiple_seen": 1.0,
+      "mint": "CecbrLLtwdRoRV6SiMcLg4uX2YDmVnD2xZupMz7NvE45",
+      "reason": "dead pool ($0 liquidity)",
+      "symbol": "Fiona"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 1,
+      "last_multiple": 1.0,
+      "max_multiple_seen": 1.0,
+      "mint": "CtjXqZL7Q6NE5Mw9c6Jk6qoi6VzZgdoSohHVgfNRVxX8",
+      "reason": "dead pool ($5 liquidity)",
+      "symbol": "Creamy"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 1,
+      "last_multiple": 1.0,
+      "max_multiple_seen": 1.0,
+      "mint": "Czoq7A5ggGyaZudx94XjuAdL9FDv8BMNNokGnnRTLFLq",
+      "reason": "dead pool ($0 liquidity)",
+      "symbol": "CATMARIO"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 1,
+      "last_multiple": 1.0,
+      "max_multiple_seen": 1.0,
+      "mint": "DCWv2DkhUkF9ZuhaETuBid8FaJghHNJCnqgjBSWEbUp5",
+      "reason": "dead pool ($6 liquidity)",
+      "symbol": "CZ"
+    },
+    {
+      "agent": "HolderAnalyst",
+      "checks": 2,
+      "last_multiple": 0.9781752046074569,
+      "max_multiple_seen": 1.0,
+      "mint": "DUZrwdjEthcJ99ZiRXr31UuqTohoTg7VjTEyfGdBpump",
+      "reason": "insider wallets: 0 top / 2011 network",
+      "symbol": "jingyu"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 1,
+      "last_multiple": 0.8600467289719627,
+      "max_multiple_seen": 1.0,
+      "mint": "DqwsvGDGWHnMRD4VKM48pQdt39LBMjZ8z3HWdyoeoSwU",
+      "reason": "dead pool ($0 liquidity)",
+      "symbol": "OGTA"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 2,
+      "last_multiple": 1.0002554931016863,
+      "max_multiple_seen": 1.0002554931016863,
+      "mint": "DtcicPCKTKeAh7TDEzTym3hXeoHAoMiBdYJhMYxZpump",
+      "reason": "too old (63505 min)",
+      "symbol": "CBUCKS"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 2,
+      "last_multiple": 1.0,
+      "max_multiple_seen": 1.0,
+      "mint": "EnLQPqE8nxAPCgS8ttsioBQME4iWNjHufrA9GcNtZgxK",
+      "reason": "dead pool ($0 liquidity)",
+      "symbol": "STARS"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 2,
+      "last_multiple": 0.8646175504458001,
+      "max_multiple_seen": 1.0,
+      "mint": "EqkgPdiT8286niV7fhajzaZfNFy851rtqq6kXHDp9tAG",
+      "reason": "dead pool ($0 liquidity)",
+      "symbol": "CATMARIO"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 1,
+      "last_multiple": 2.99765625e-05,
+      "max_multiple_seen": 1.0,
+      "mint": "EuwhMPdzV2JobMoNc5VrVBNFwn8JaJQFKB3ttjxqB8y",
+      "reason": "dead pool ($0 liquidity)",
+      "symbol": "FIONA"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 1,
+      "last_multiple": 1.0,
+      "max_multiple_seen": 1.0,
+      "mint": "Exun5GVicjnK1WiUS5Rdnx4kHdtmziVrZSo61syrpump",
+      "reason": "dead pool ($0 liquidity)",
+      "symbol": "DCTY"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 2,
+      "last_multiple": 1.0,
+      "max_multiple_seen": 1.0,
+      "mint": "FA2YF3cKuunjtWkuhaRThFNrXjXzTiPzQsLxJrYV25fD",
+      "reason": "dead pool ($0 liquidity)",
+      "symbol": "AudaCity"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 1,
+      "last_multiple": 1.0107639800472565,
+      "max_multiple_seen": 1.0107639800472565,
+      "mint": "FM9bMa7YVqgEBxfgLZbBos8rmtwyHSSwFfGW8iZvHFnH",
+      "reason": "dead pool ($0 liquidity)",
+      "symbol": "PORNHUB"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 2,
+      "last_multiple": 0.9982782369146005,
+      "max_multiple_seen": 1.0096418732782368,
+      "mint": "FS1pBmZKp2Qw1atC64GoLamHstECAos9ot8bGPgDpump",
+      "reason": "too old (6429 min)",
+      "symbol": "Socks"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 2,
+      "last_multiple": 0.987595419847328,
+      "max_multiple_seen": 1.0057251908396947,
+      "mint": "FVzqGqRmr4UH1Fif6dewmwbJ1p4YUZCu8dcw4Efopump",
+      "reason": "too old (6599 min)",
+      "symbol": "HOGE"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 1,
+      "last_multiple": 1.0,
+      "max_multiple_seen": 1.0,
+      "mint": "FoP3HXoMS85SpSbp27KMNj1w6Ha9JUa9McE9KomZheJh",
+      "reason": "dead pool ($14 liquidity)",
+      "symbol": "WIN"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 2,
+      "last_multiple": 0.7696883852691219,
+      "max_multiple_seen": 1.0,
+      "mint": "GFT5o5B1pUhQnzw2noEHBgtAogGAqW8enFi7448Fpump",
+      "reason": "dead pool ($12 liquidity)",
+      "symbol": "uinhim"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 2,
+      "last_multiple": 0.9791863765373698,
+      "max_multiple_seen": 1.0018921475875118,
+      "mint": "GexThZHgaswpAQ7Fi8QrHFubjPimUNSYhJiAA7XZpump",
+      "reason": "too old (28965 min)",
+      "symbol": "WASTED"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 2,
+      "last_multiple": 1.011797362942401,
+      "max_multiple_seen": 1.011797362942401,
+      "mint": "GsdDQFoxK3pvhjELwHniWpBudKeZRxbTyASNP2eDR2gV",
+      "reason": "dead pool ($0 liquidity)",
+      "symbol": "‮ROLLES"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 2,
+      "last_multiple": 0.9954925949774629,
+      "max_multiple_seen": 1.0,
+      "mint": "HoqJaoes6yfL8YEsHGfENwVKT7LrAPy97ZDg9hmBu4Ep",
+      "reason": "too old (20727 min)",
+      "symbol": "THUG"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 2,
+      "last_multiple": 0.9772497472194135,
+      "max_multiple_seen": 1.0106167846309402,
+      "mint": "HsprHxBRgiVaQdRf3TnKNuZZtaX9JUSPgMFdAkk6pump",
+      "reason": "too old (124348 min)",
+      "symbol": "GATO"
+    },
+    {
+      "agent": "LiquidityGuard",
+      "checks": 2,
+      "last_multiple": 1.0521920668058455,
+      "max_multiple_seen": 1.0617171189979124,
+      "mint": "ejrz94zR4A2ScS8LdvRaQih2xUxaE2ydreqUNKmpump",
+      "reason": "too old (19075 min)",
+      "symbol": "ANTS"
+    }
+  ]
+}

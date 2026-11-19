@@ -141,3 +141,4 @@ Both flaws found in the paper run were fixed and tested the same day (branch `cl
 - **Hard rejects are permanent.** A hard-rejected coin goes on a ban list that outlives the 400-coin watch list, so a later boost or profile lead cannot bring it back.
 - The time stop now matches the simulated rule: leave after 5 minutes if the coin is below 1.3x.
 - New tests cover both fixes (engine tests: 126 passing; OCaml risk tests: 18 passing).
+- **Run 2 with the fixes (15 min, 20:55–21:10 UTC, 19 Nov 2026):** 1,872 leads, 18 deep checks, 4 buys, 1 win (AI, +$0.07), total −$0.22 (about −5% per trade). Marks now match proceeds: AI showed +10.8% sellable and returned $1.07; in run 1 a coin showing +2.1% on screen returned $0.89. Four trades prove nothing about edge. Files: `docs/paper-runs/2026-11-19-run2/`.
