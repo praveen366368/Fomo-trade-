@@ -7,3 +7,5 @@ data/
 .env
 *.key
 *keypair*.json
+# generated intermediate for the PDF
+reports/FOMO-Family-Complete-Work.html

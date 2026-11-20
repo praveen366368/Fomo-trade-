@@ -41,6 +41,7 @@ All in `config/fomo.conf`; any key can be overridden with `FOMO_<KEY>`.
 * `docs/ARCHITECTURE.md` — the 20 agents, data sources, threads, rate limits.
 * `docs/STRATEGY.md` — filters, exits, costs and the numbers behind them.
 * `docs/ROADMAP.md` — what live trading needs (phase 2).
+* `reports/FOMO-Family-Complete-Work.pdf` — all the work in one PDF (rebuild: `python3 scripts/make_pdf.py`).
 * `reports/` — the full research report. `research_notes/` — the raw notes with sources.
 
 **Risk:** most new meme coins go to zero (98.6% of pump.fun tokens collapsed or showed
